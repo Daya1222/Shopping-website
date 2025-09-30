@@ -1,8 +1,7 @@
-const express = require(express)
-const express = require("express");
-const authRoutes = require("./routes/authRoutes.js");
-const cors = require("cors");
-const dbConnect = require("./config/dbConnect.js");
+import express from "express";
+import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
+import dbConnect from "./config/dbConnect.js";
 
 //Connect database
 
@@ -19,6 +18,11 @@ app.use(
 
 // Route Mount
 app.use("/api/auth", authRoutes);
+app.get("/", (req, res) => {
+  res.status(200).json({ msg: "test seccess" });
+});
 // app.use("/api/users", userRoutes);
 // app.use("/api/products", productRoutes);
 // app.use("/api/orders", orderRoutes);
+
+export default app;
