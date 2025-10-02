@@ -1,35 +1,46 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
+const userSchema = new mongoose.Schema(
+  {
+    name: { type: String, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    phoneNumber: { type: String },
+
+    // Auth
+    passwordHash: { type: String },
+    googleId: { type: String, unique: true, sparse: true },
+    isEmailVerified: { type: Boolean, default: false },
+
+    // Profile
+    profilePicUrl: { type: String },
+
+    // Addresses
+    addresses: [
+      {
+        street: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: String,
+        isDefault: { type: Boolean, default: false },
+      },
+    ],
+
+    // E-commerce
+    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+
+    // Role / status
+    role: {
+      type: String,
+      enum: ["buyer", "seller", "admin"],
+      default: "buyer",
+    },
+    isActive: { type: Boolean, default: true },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-  },
-  passwordHash: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ["buyer", "seller", "admin"],
-    default: "buyer",
-  },
-  profilePicUrl: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true },
+); // auto adds createdAt + updatedAt
 
 const User = mongoose.model("User", userSchema);
-
 export default User;
