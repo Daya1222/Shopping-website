@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,9 +7,15 @@ import logo from "../assets/social.png";
 import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 
+import { UserContext } from "../context/UserContext.jsx";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Login() {
+  //Global contexts
+  const { setUser } = useContext(UserContext);
+
+  //Local states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -67,13 +73,14 @@ function Login() {
   // Submit login request
   async function handleSubmit() {
     try {
-      await axios.post(
+      const res = await axios.post(
         `${API_BASE}/auth/login`,
         { email, password },
         { withCredentials: true }, // allow cookie
       );
 
-      // Success → clear errors and navigate
+      setUser(res.data.user);
+
       setEmailError("");
       setPasswordError("");
       navigate("/");

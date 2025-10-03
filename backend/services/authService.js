@@ -31,7 +31,16 @@ async function registerUser({ name, email, password, role }) {
   // Create user
   await User.create({ name, email, passwordHash });
 
-  return { error: null, data: { msg: "User registered successfully." } };
+  return {
+    error: null,
+    data: {
+      msg: "User registered successfully.",
+      user: {
+        name,
+        email,
+      },
+    },
+  };
 }
 
 async function loginUser({ email, password }) {
@@ -45,7 +54,15 @@ async function loginUser({ email, password }) {
 
   return {
     error: null,
-    data: { msg: "Login successful." },
+    data: {
+      msg: "Login successful.",
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        isVerified: user.isVerified,
+      },
+    },
     cookieOptions: {
       token,
       options: {

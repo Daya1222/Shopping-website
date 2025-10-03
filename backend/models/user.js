@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     // Auth
     passwordHash: { type: String },
     googleId: { type: String, unique: true, sparse: true },
-    isEmailVerified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: false },
 
     // Profile
     profilePicUrl: { type: String },
