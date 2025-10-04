@@ -26,7 +26,23 @@ function Register() {
   const passwordRef = useRef(null);
   const confPasswordRef = useRef(null);
 
-  // Auto-validate when step changes to 2
+  useEffect(() => {
+    axios
+      .get(`${API_BASE}/api/service/get-current-user`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.user) {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching current user:", err);
+      });
+  }, []);
+
   useEffect(() => {
     if (step === 2) {
       const validate = async () => {
@@ -67,7 +83,7 @@ function Register() {
   async function validateEmail(email) {
     try {
       const res = await axios.post(
-        `${API_BASE}/service/validateemail`,
+        `${API_BASE}/api/service/validate-email`,
         { email },
         { headers: { "Content-Type": "application/json" } },
       );
@@ -142,7 +158,7 @@ function Register() {
   // Submit the data
   async function handleSubmit() {
     try {
-      const res = await axios.post(`${API_BASE}/auth/register`, {
+      const res = await axios.post(`${API_BASE}/api/auth/register`, {
         name,
         email,
         password,
@@ -369,7 +385,7 @@ function Register() {
              hover:bg-[#E5E5E5] transition cursor-pointer"
             >
               <img src={google} alt="Google logo" className="h-8 " />
-              <span>Sign up with Google</span>
+              <a href={`${API_BASE}/oauth/google`}>Sign up with Google</a>
             </button>
           </div>
         </div>

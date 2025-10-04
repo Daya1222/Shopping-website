@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -24,6 +24,23 @@ function Login() {
   const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  useEffect(() => {
+    axios
+      .get(`${API_BASE}/api/service/get-current-user`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.user) {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching current user:", err);
+      });
+  }, []);
 
   // Validate email format
   function checkEmail() {
@@ -206,7 +223,7 @@ function Login() {
                 className="flex items-center justify-center gap-2 w-4/5 h-12 p-3 text-gray-800 bg-[#F7F7F7] rounded-2xl hover:bg-[#E5E5E5] transition"
               >
                 <img src={google} alt="google" className="h-8" />
-                <span>Sign in with Google</span>
+                <a href={`${API_BASE}/oauth/google`}>Sign up with Google</a>
               </button>
             </form>
           </div>
