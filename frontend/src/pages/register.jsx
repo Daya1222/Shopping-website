@@ -7,14 +7,13 @@ import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 import axios from "axios";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
-console.log("API_BASE:", API_BASE); // This should log your backend URL
 
 function Register() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -34,12 +33,14 @@ function Register() {
       .then((res) => {
         if (res.data.user) {
           localStorage.setItem("user", JSON.stringify(res.data.user));
-
-          navigate("/");
+          navigate("/home");
+        } else {
+          setStep(1);
         }
       })
       .catch((err) => {
-        console.error("Error fetching current user:", err);
+        console.error(err);
+        setStep(1);
       });
   }, []);
 
@@ -180,25 +181,11 @@ function Register() {
     }
   }
 
+  if (step === 0) return null;
+
   return (
-    <div className="flex items-center justify-center flex-col w-screen h-screen">
-      <div className="flex w-[100%] h-1/12 bg-white items-center ">
-        <div className="cursor-pointer flex items-center">
-          <img src={logo} alt="QuickCart logo" className="w-10 ml-4 mr-1" />
-          <div className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 drop-shadow-xl">
-            QuickCart
-          </div>
-        </div>
-
-        <a
-          className="ml-auto text-cyan-800 font-medium hover:text-gray-900 cursor-pointer mr-6"
-          onClick={() => navigate("/login")}
-        >
-          Login
-        </a>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] w-full h-11/12 transition-all duration-500 ease-in-out">
+    <div className="flex items-center justify-center flex-col w-screen h-full">
+      <div className="flex flex-col md:flex-row justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] w-full h-full transition-all duration-500 ease-in-out">
         <div className="flex justify-center items-center md:w-7/12 md:h-full ">
           <div className="hidden md:flex flex-col">
             <img src={people} alt="People illustration" />

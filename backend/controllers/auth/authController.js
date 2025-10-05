@@ -17,14 +17,9 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-    const { error, data, cookieOptions } = await loginUser(req.body);
-
+    const { error, data, token, cookieOptions } = await loginUser(req.body);
     if (error) return res.status(error).json(data);
-
-    return res
-      .cookie(cookieOptions.token, cookieOptions.options)
-      .status(200)
-      .json(data);
+    return res.cookie("token", token, cookieOptions).status(200).json(data);
   } catch (err) {
     console.error("Server error during login:", err);
     return res.status(500).json({ msg: "Server error." });

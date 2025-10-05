@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import google from "../assets/google.svg";
-import logo from "../assets/social.png";
 import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 
@@ -20,6 +19,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [checkingUser, setCheckingUser] = useState(true);
 
   const navigate = useNavigate();
   const emailRef = useRef(null);
@@ -32,13 +32,18 @@ function Login() {
       })
       .then((res) => {
         if (res.data.user) {
+          console.log(res.data.user);
+          setUser(res.data.user);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-
-          navigate("/");
+          navigate("/home");
+        } else {
+          setCheckingUser(false);
+          console.log("came here");
         }
       })
       .catch((err) => {
-        console.error("Error fetching current user:", err);
+        console.error(err);
+        setCheckingUser(false);
       });
   }, []);
 
@@ -90,17 +95,15 @@ function Login() {
   // Submit login request
   async function handleSubmit() {
     try {
-      const res = await axios.post(
-        `${API_BASE}/auth/login`,
+      await axios.post(
+        `${API_BASE}/api/auth/login`,
         { email, password },
-        { withCredentials: true }, // allow cookie
+        { withCredentials: true },
       );
-
-      setUser(res.data.user);
 
       setEmailError("");
       setPasswordError("");
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       const status = err.response?.status;
 
@@ -113,26 +116,11 @@ function Login() {
     }
   }
 
+  if (checkingUser) return null; //Do not render if already logged in
   return (
-    <div className="flex flex-col w-screen h-screen items-center justify-center">
-      {/* Header */}
-      <div className="flex w-full h-12 bg-white items-center px-4">
-        <div className="flex items-center cursor-pointer">
-          <img src={logo} alt="logo" className="w-10 mr-1" />
-          <div className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 drop-shadow-xl">
-            QuickCart
-          </div>
-        </div>
-        <a
-          className="ml-auto text-cyan-800 font-medium hover:text-gray-900 cursor-pointer"
-          onClick={() => navigate("/register")}
-        >
-          Sign Up
-        </a>
-      </div>
-
+    <div className=" flex flex-col w-full h-full items-center justify-center">
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row w-full h-[92%] justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500">
+      <div className="flex flex-col md:flex-row w-full h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500">
         {/* Left Side Graphics */}
         <div className="md:w-7/12 md:flex hidden justify-center items-center">
           <img src={people} alt="people" />

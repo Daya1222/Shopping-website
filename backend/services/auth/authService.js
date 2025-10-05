@@ -49,12 +49,9 @@ async function registerUser({ name, email, password, role }) {
 async function loginUser({ email, password }) {
   const user = await User.findOne({ email });
   if (!user) return { error: 401, data: { msg: "Invalid email or password." } };
-
   const isMatch = await comparePassword(password, user.passwordHash);
   if (!isMatch) return { error: 403, data: { msg: "Invalid password." } };
-
   const token = createToken(user);
-
   return {
     error: null,
     data: {
@@ -66,16 +63,13 @@ async function loginUser({ email, password }) {
         isVerified: user.isVerified,
       },
     },
+    token: token,
     cookieOptions: {
-      token,
-      options: {
-        httpOnly: true,
-        secure: IS_PRODUCTION,
-        sameSite: IS_PRODUCTION ? "None" : "Lax",
-        maxAge: 24 * 60 * 60 * 1000,
-      },
+      httpOnly: true,
+      secure: IS_PRODUCTION,
+      sameSite: IS_PRODUCTION ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000,
     },
   };
 }
-
 export { registerUser, loginUser };

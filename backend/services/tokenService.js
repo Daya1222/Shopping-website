@@ -2,7 +2,9 @@ import jwt from "jsonwebtoken";
 
 function createToken(user) {
   const payload = {
-    id: user._id,
+    _id: user._id,
+    email: user.email,
+    name: user.name,
     role: user.role,
   };
 

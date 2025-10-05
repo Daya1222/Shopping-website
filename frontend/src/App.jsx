@@ -2,6 +2,9 @@ import "./App.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Landing from "./pages/landing.jsx";
+import Navbar from "./components/navbar.jsx";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
 
@@ -9,11 +12,14 @@ function App() {
   return (
     <BrowserRouter>
       <UserProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+        <Navbar>
+          <Routes>
+            <Route path="/" element=<Landing /> />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </Navbar>
       </UserProvider>
     </BrowserRouter>
   );
