@@ -3,7 +3,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Landing from "./pages/landing.jsx";
-import Navbar from "./components/navbar.jsx";
+import Navbar from "./components/layout.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
