@@ -1,9 +1,9 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 
 import logo from "../assets/social.png";
 
-function Navbar({ children }) {
+function Navbar({}) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const location = useLocation();
@@ -45,10 +45,31 @@ function Navbar({ children }) {
             Sign Up
           </a>
         </div>
+
+        {/*Desktop Navbar*/}
+
+        <div className="hidden h-full w-full items-center justify-between  ">
+          {/* logo */}
+          <div className="flex items-center cursor-pointer gap-2">
+            <img src={logo} alt="logo" className="w-8" />
+            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-900 to-emerald-600">
+              QuickCart
+            </div>
+          </div>
+
+          {/* navigation */}
+          <div>
+            <div>Home</div>
+            <div>Products</div>
+            <div></div>
+          </div>
+        </div>
       </nav>
 
       {/* Page Content*/}
-      <div className="flex-1 overflow-auto">{children}</div>
+      <div className="h-full w-full overflow-auto">
+        <Outlet />
+      </div>
     </div>
   );
 }

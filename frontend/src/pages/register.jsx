@@ -184,53 +184,50 @@ function Register() {
   if (step === 0) return null;
 
   return (
-    <div className="flex items-center justify-center flex-col w-screen h-full">
-      <div className="flex flex-col md:flex-row justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] w-full h-full transition-all duration-500 ease-in-out">
-        <div className="flex justify-center items-center md:w-7/12 md:h-full ">
-          <div className="hidden md:flex flex-col">
-            <img src={people} alt="People illustration" />
-          </div>
-          <div className="flex md:hidden justify-center items-center gap-2">
-            <img src={bag} alt="Shopping bag" className="w-10 mb-4" />
-            <p className="text-2xl font-bold mb-4 text-gray-700">Welcome!</p>
-          </div>
+    <div className="flex flex-col w-full h-full items-center justify-center">
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row w-full min-h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500 md:gap-14 lg:gap-16">
+        {/* Graphics */}
+        <div className="md:w-7/12 md:flex hidden justify-center items-center">
+          <img src={people} alt="people" />
+        </div>
+        <div className="md:hidden flex justify-center items-center gap-2 pt-8">
+          <img src={bag} alt="bag" className="w-10 mb-4" />
+          <p className="text-2xl font-bold mb-4 text-gray-700">Welcome!</p>
         </div>
 
-        <div className="flex justify-center items-center w-11/12 md:w-5/12 md:min-w-md h-8/12 ">
-          <div className="flex flex-col justify-center items-center w-full max-w-md h-full bg-white gap-6 rounded-2xl shadow-lg md:m-6 md:p-8">
-            <div className=" flex flex-row justify-center items-center">
-              <div className="flex h-[20%] w-[100%] flex-col justify-center items-center">
-                <div className="hidden md:flex items-center justify-center pl-9 mb-6 text-2xl font-semibold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
-                  Welcome!
-                </div>
-
-                <div className="text-[#414141] text-3xl md:text-4xl font-bold">
-                  Register
-                </div>
+        {/* Register form */}
+        <div className="flex justify-center items-center md:w-3/12 md:min-w-sm w-sm h-auto md:pr-6 py-8">
+          <div className="flex flex-col justify-center items-center w-full max-w-md bg-white gap-4 rounded-2xl shadow-lg p-4">
+            {/* Form Header */}
+            <div className="flex flex-col items-center mb-6">
+              <div className="hidden md:flex text-2xl font-semibold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent mb-2">
+                Welcome!
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-3xl font-bold text-gray-800">Register</div>
                 <div>
-                  <span className="text-[#414141] text-3xl  md:text-4xl font-bold">
+                  <span className="text-3xl font-bold text-gray-800">
                     your{" "}
                   </span>
-                  <span className="bg-gradient-to-r from-[#C0E1F2] md:text-4xl to-[#99E0C9] text-transparent bg-clip-text text-3xl font-bold">
+                  <span className="bg-gradient-to-r from-[#C0E1F2] to-[#99E0C9] text-transparent bg-clip-text text-3xl font-bold">
                     ɑccount
                   </span>
                 </div>
-                <div className="text-[#414141] text-[15px]">
-                  Already have an account?{" "}
-                  <a
-                    className="text-cyan-800 cursor-pointer hover:underline"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </a>
-                </div>
               </div>
-              <div className="w-[60px] md:pt-14 ">
-                <img src={arrow} alt="Arrow decoration" />
+              <div className="text-sm text-gray-600 mt-2">
+                Already have an account?{" "}
+                <span
+                  className="text-cyan-800 cursor-pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </span>
               </div>
             </div>
+
             {step === 1 && (
-              <form className="flex h-[40%] w-[100%] flex-col gap-4 justify-center items-center">
+              <form className="flex flex-col gap-4 w-full items-center">
                 <input
                   type="text"
                   name="name"
@@ -247,7 +244,7 @@ function Register() {
                     }
                   }}
                   ref={nameRef}
-                  className="p-3  rounded-[8px] h-12 w-[80%]  text-[#9A9A9A] text-1xl  bg-[#F7F7F7] "
+                  className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="Full name"
                 />
                 {nameError && (
@@ -271,7 +268,7 @@ function Register() {
                     }
                   }}
                   ref={emailRef}
-                  className="p-3  rounded-[8px] h-12 w-[80%]  text-[#9A9A9A] text-1xl  bg-[#F7F7F7] "
+                  className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="Email address"
                 />
                 {emailError && (
@@ -282,9 +279,7 @@ function Register() {
 
                 <button
                   type="button"
-                  className="flex justify-center items-center bg-[#414141] text-white p-3 rounded-[8px] h-12 w-[80%] text-1xl cursor-pointer
-              hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9]
-  hover:text-[#414141] transition"
+                  className="bg-gray-800 text-white w-4/5 h-12 rounded-lg hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9] hover:text-gray-800 transition"
                   onClick={() => setStep(2)}
                 >
                   Next →
@@ -292,16 +287,16 @@ function Register() {
               </form>
             )}
             {step === 2 && (
-              <div className="flex h-[70%] w-[100%] flex-col gap-4 justify-center items-center text-gray-900">
-                <div className="w-16 h-16 border-4 border-gray-200 border-t-[#414141] rounded-full animate-spin"></div>
-                <p className="text-[#414141] text-xl font-semibold">
+              <div className="flex flex-col gap-4 w-full items-center justify-center">
+                <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin"></div>
+                <p className="text-gray-800 text-xl font-semibold">
                   Validating email...
                 </p>
               </div>
             )}
 
             {step === 3 && (
-              <form className="flex h-[40%] w-[100%] flex-col gap-4 justify-center items-center">
+              <form className="flex flex-col gap-4 w-full items-center">
                 <input
                   type="password"
                   name="password"
@@ -315,7 +310,7 @@ function Register() {
                     }
                   }}
                   ref={passwordRef}
-                  className="p-3  rounded-[8px] h-12 w-[80%]  text-[#9A9A9A] text-1xl  bg-[#F7F7F7] "
+                  className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="New password"
                 />
                 {passwordError && (
@@ -337,7 +332,7 @@ function Register() {
                     }
                   }}
                   ref={confPasswordRef}
-                  className="p-3  rounded-[8px] h-12 w-[80%]  text-[#9A9A9A] text-1xl  bg-[#F7F7F7] "
+                  className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="Confirm password"
                 />
                 {confPasswordError && (
@@ -348,9 +343,7 @@ function Register() {
 
                 <button
                   type="button"
-                  className="flex justify-center items-center bg-[#414141] text-white p-3 rounded-[8px] h-12 w-[80%] text-1xl cursor-pointer
-              hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9]
-  hover:text-[#414141] transition"
+                  className="bg-gray-800 text-white w-4/5 h-12 rounded-lg hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9] hover:text-gray-800 transition"
                   onClick={() => {
                     checkConfirmPassword();
                   }}
@@ -360,18 +353,16 @@ function Register() {
               </form>
             )}
 
-            <div className="flex items-center w-full my-0">
+            <div className="flex items-center w-full my-2">
               <div className="flex-grow border-t border-gray-300"></div>
               <span className="px-2 text-gray-500">or</span>
               <div className="flex-grow border-t border-gray-300"></div>
             </div>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 w-[80%] h-12 
-             p-3 text-1xl text-[#414141] bg-[#F7F7F7] rounded-2xl 
-             hover:bg-[#E5E5E5] transition cursor-pointer"
+              className="flex items-center justify-center gap-2 w-4/5 h-12 p-3 text-gray-800 bg-[#F7F7F7] rounded-2xl hover:bg-[#E5E5E5] transition"
             >
-              <img src={google} alt="Google logo" className="h-8 " />
+              <img src={google} alt="google" className="h-8" />
               <a href={`${API_BASE}/oauth/google`}>Sign up with Google</a>
             </button>
           </div>

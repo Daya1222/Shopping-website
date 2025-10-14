@@ -18,8 +18,12 @@ function startGauth(req, res) {
     access_type: "offline",
     prompt: "consent",
   });
-
-  res.redirect(`${base}?${params.toString()}`);
+  try {
+    console.log("✅ Gauth initiated");
+    res.redirect(`${base}?${params.toString()}`);
+  } catch (err) {
+    console.log(`error during gauth initiation: ${err}`);
+  }
 }
 
 async function handleGauthCallback(req, res) {

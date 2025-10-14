@@ -38,7 +38,6 @@ function Login() {
           navigate("/home");
         } else {
           setCheckingUser(false);
-          console.log("came here");
         }
       })
       .catch((err) => {
@@ -118,21 +117,21 @@ function Login() {
 
   if (checkingUser) return null; //Do not render if already logged in
   return (
-    <div className=" flex flex-col w-full h-full items-center justify-center">
+    <div className="flex flex-col w-full h-full items-center justify-center">
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row w-full h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500">
+      <div className="flex flex-col md:flex-row w-full h-full min-h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500 md:gap-14 lg:gap-16">
         {/* Left Side Graphics */}
         <div className="md:w-7/12 md:flex hidden justify-center items-center">
           <img src={people} alt="people" />
         </div>
-        <div className="md:hidden flex justify-center items-center gap-2">
+        <div className="md:hidden flex justify-center items-center gap-2 pt-8">
           <img src={bag} alt="bag" className="w-10 mb-4" />
           <p className="text-2xl font-bold mb-4 text-gray-700">Welcome back!</p>
         </div>
 
         {/* Login Form */}
-        <div className="flex justify-center items-center md:w-5/12 w-11/12 min-w-[300px] h-8/12">
-          <div className="flex flex-col justify-center items-center w-full max-w-md h-full bg-white gap-6 rounded-2xl shadow-lg p-6">
+        <div className="flex justify-center items-center md:w-3/12 md:min-w-sm w-sm h-auto md:pr-6">
+          <div className="flex flex-col justify-center items-center w-full max-w-md bg-white gap-4 rounded-2xl shadow-lg p-4">
             {/* Form Header */}
             <div className="flex flex-col items-center mb-6">
               <div className="text-3xl font-bold text-gray-800">Log in to</div>
