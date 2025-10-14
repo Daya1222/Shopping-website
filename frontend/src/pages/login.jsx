@@ -1,50 +1,29 @@
-import { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 import google from "../assets/google.svg";
 import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 
-import { UserContext } from "../context/UserContext.jsx";
-
+import useUser from "../hooks/useUser";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Login() {
   //Global contexts
-  const { setUser } = useContext(UserContext);
+  const { user } = useUser();
+
+  const { checkingUser } = useOutletContext();
 
   //Local states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [checkingUser, setCheckingUser] = useState(true);
 
   const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE}/api/service/get-current-user`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.user) {
-          console.log(res.data.user);
-          setUser(res.data.user);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          navigate("/home");
-        } else {
-          setCheckingUser(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setCheckingUser(false);
-      });
-  }, []);
 
   // Validate email format
   function checkEmail() {
@@ -115,7 +94,7 @@ function Login() {
     }
   }
 
-  if (checkingUser) return null; //Do not render if already logged in
+  if (checkingUser) return null;
   return (
     <div className="flex flex-col w-full h-full items-center justify-center">
       {/* Main Content */}

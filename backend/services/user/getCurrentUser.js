@@ -1,15 +1,20 @@
 import { verifyToken } from "../tokenService.js";
+import User from "../../models/user.js";
 
-function getCurrentUser(req) {
-  const token = req.cookies.token;
-  if (!token) return null;
+async function getCurrentUser(token) {
+    if (!token) return null;
 
-  try {
-    const decoded = verifyToken(token);
-    return decoded;
-  } catch (err) {
-    return null;
-  }
+    try {
+        const decoded = verifyToken(token);
+        const reqUser = await User.findOne(
+            { _id: decoded._id },
+            "-passwordHash -__v",
+        );
+        console.log(reqUser);
+        return reqUser;
+    } catch (err) {
+        return null;
+    }
 }
 
 export default getCurrentUser;

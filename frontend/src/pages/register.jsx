@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import arrow from "../assets/vector-arrow.png";
 import google from "../assets/google.svg";
-import logo from "../assets/social.png";
 import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 import axios from "axios";
@@ -13,7 +11,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -24,25 +22,6 @@ function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confPasswordRef = useRef(null);
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE}/api/service/get-current-user`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.user) {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          navigate("/home");
-        } else {
-          setStep(1);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setStep(1);
-      });
-  }, []);
 
   useEffect(() => {
     if (step === 2) {
