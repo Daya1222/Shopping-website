@@ -27,11 +27,10 @@ function Navbar({}) {
       })
       .then((res) => {
         if (res.data.user) {
-          console.log(res.data.user, "running");
-          setUser(res.data.user); // update the context state
-          navigate("/home"); // redirect to home
+          setUser(res.data.user);
+          navigate("/home");
         } else {
-          setCheckingUser(false); // user not found, stop loading state
+          setCheckingUser(false);
         }
       })
       .catch((err) => {
@@ -45,7 +44,7 @@ function Navbar({}) {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col">
+    <div className="h-screen w-screen flex flex-col overflow-hidden">
       {/*Navbar*/}
       <nav className="flex w-full h-14 md:h-16 bg-white items-center px-4 border-b border-gray-200">
         {/*Mobile Navbar*/}
@@ -71,23 +70,23 @@ function Navbar({}) {
 
           <div className="flex items-center cursor-pointer gap-2">
             <img src={logo} alt="logo" className="w-8" />
-            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-900 to-emerald-600">
-              QuickCart
-            </div>
+            <div className="text-xl font-bold text-gray-900">QuickCart</div>
           </div>
 
           {user ? (
-            <div className="text-black font-medium text-sm">nam</div>
+            <div>
+              <ProfileCard variant="concise" showChevron={true} />
+            </div>
           ) : location.pathname === "/login" ? (
             <button
-              className="text-cyan-800 font-medium text-sm hover:text-gray-900 cursor-pointer"
+              className="text-blue-600 font-medium text-sm hover:text-blue-700 cursor-pointer transition-colors"
               onClick={() => navigate("/register")}
             >
               Sign Up
             </button>
           ) : (
             <button
-              className="text-cyan-800 font-medium text-sm hover:text-gray-900 cursor-pointer"
+              className="text-blue-600 font-medium text-sm hover:text-blue-700 cursor-pointer transition-colors"
               onClick={() => navigate("/login")}
             >
               Login
@@ -100,30 +99,26 @@ function Navbar({}) {
           {/* logo */}
           <div className="flex items-center cursor-pointer gap-2">
             <img src={logo} alt="logo" className="w-8" />
-            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-900 to-emerald-600">
-              QuickCart
-            </div>
+            <div className="text-xl font-bold text-gray-900">QuickCart</div>
           </div>
 
           {/* navigation */}
           <div className="flex gap-8">
-            <button className="text-gray-700 hover:text-emerald-600 font-medium transition">
+            <button className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Home
             </button>
-            <button className="text-gray-700 hover:text-emerald-600 font-medium transition">
+            <button className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Products
             </button>
-            <button className="text-gray-700 hover:text-emerald-600 font-medium transition">
+            <button className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Orders
             </button>
           </div>
 
-          <button
-            className="text-cyan-800 font-medium text-sm hover:text-gray-900"
-            onClick={() => navigate("/register")}
-          >
-            {}
-          </button>
+          {/* Profile Card */}
+          <div>
+            <ProfileCard variant="full" showChevron={true} />
+          </div>
         </div>
       </nav>
 
@@ -148,7 +143,7 @@ function Navbar({}) {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center gap-2">
               <img src={logo} alt="logo" className="w-8" />
               <span className="font-bold text-gray-900">QuickCart</span>
@@ -167,25 +162,25 @@ function Navbar({}) {
               <button
                 key={item.name}
                 onClick={() => setMenuOpen(false)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition group"
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors group"
               >
-                <item.icon className="w-5 h-5 group-hover:text-emerald-600" />
+                <item.icon className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
                 <span className="font-medium">{item.name}</span>
               </button>
             ))}
           </div>
 
           {/* Menu Footer */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100">
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
             {user ? (
-              <ProfileCard />
+              <ProfileCard variant="full" showChevron={false} />
             ) : (
               <button
                 onClick={() => {
                   navigate("/register");
                   setMenuOpen(false);
                 }}
-                className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-medium py-3 rounded-lg hover:shadow-lg transition"
+                className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Sign Up
               </button>

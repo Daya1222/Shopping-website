@@ -96,7 +96,7 @@ function Login() {
 
   if (checkingUser) return null;
   return (
-    <div className="flex flex-col w-full h-full items-center justify-center">
+    <div className="flex flex-col  w-full h-full items-center justify-center">
       {/* Main Content */}
       <div className="flex flex-col md:flex-row w-full h-full min-h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500 md:gap-14 lg:gap-16">
         {/* Left Side Graphics */}

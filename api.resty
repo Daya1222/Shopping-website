@@ -1,0 +1,3 @@
+### Get user info 
+
+GET "http://localhost:5000/service/get-current-user"
