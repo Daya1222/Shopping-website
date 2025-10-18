@@ -114,8 +114,11 @@ function Login() {
             {/* Form Header */}
             <div className="flex flex-col items-center mb-6">
               <div className="text-3xl font-bold text-gray-800">Log in to</div>
-              <div className="text-3xl font-bold bg-gradient-to-r from-[#C0E1F2] to-[#99E0C9] text-transparent bg-clip-text">
-                ɑccount
+              <div>
+                <span className="text-3xl font-bold text-gray-800">your </span>
+                <span className="bg-gradient-to-r from-[#C0E1F2] to-[#99E0C9] text-transparent bg-clip-text text-3xl font-bold">
+                  ɑccount
+                </span>
               </div>
               <div className="text-sm text-gray-600">
                 Don't have an account?{" "}
@@ -189,7 +192,7 @@ function Login() {
                 className="flex items-center justify-center gap-2 w-4/5 h-12 p-3 text-gray-800 bg-[#F7F7F7] rounded-2xl hover:bg-[#E5E5E5] transition"
               >
                 <img src={google} alt="google" className="h-8" />
-                <a href={`${API_BASE}/oauth/google`}>Sign up with Google</a>
+                <a href={`${API_BASE}/oauth/google`}>Sign in with Google</a>
               </button>
             </form>
           </div>

@@ -1,18 +1,7 @@
-import { useState } from "react";
-import { useUser } from "../hooks/useUser";
-import 
+import useUser from "../hooks/useUser";
 
 function Home() {
-  const [user, setuser] = useUser();
-
-  return <div>
-
-    <span>
-ssh
-       
-    </span>
-
-  </div>;
+  return <div> </div>;
 }
 
 export default Home;

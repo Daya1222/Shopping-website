@@ -5,10 +5,12 @@ import Register from "./pages/register";
 import Landing from "./pages/landing.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
-import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
+import ProtectedRoutes from "./components/protectedRoutes.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
 import Navbar from "./components/navbar.jsx";
+import Profile from "./pages/profile.jsx";
+import Help from "./pages/help.jsx";
 
 function App() {
   return (
@@ -25,6 +27,15 @@ function App() {
                 </ProtectedRoutes>
               }
             />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoutes>
+                  <Profile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="/help" element={<Help />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>

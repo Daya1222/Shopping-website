@@ -11,8 +11,8 @@ async function getCurrentUser(token) {
             "-passwordHash -__v",
         );
         console.log(reqUser);
-        return reqUser;
-    } catch (err) {
+        return reqUser || null;
+    } catch {
         return null;
     }
 }
