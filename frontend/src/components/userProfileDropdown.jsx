@@ -1,6 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
-import { ChevronDown, HelpCircle, Settings, User2, LogOut } from "lucide-react";
+import {
+  ChevronDown,
+  HelpCircle,
+  Settings,
+  User2,
+  LogOut,
+  MessageCircleWarning,
+  CircleAlert,
+} from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
@@ -14,6 +22,7 @@ function ProfileCard({ variant = "concise" }) {
   const hoverTimeoutRef = useRef(null);
 
   const isFull = variant === "full";
+  console.log(user);
 
   const toggleMenu = () => {
     setProfileMenu(!profileMenu);
@@ -75,7 +84,10 @@ function ProfileCard({ variant = "concise" }) {
   const ProfileImage = () => (
     <div className="relative">
       <img
-        src={user?.profilePicUrl || "https://placehold.co/150x150"}
+        src={
+          user?.profilePicUrl ||
+          "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+        }
         alt={user?.name || "User"}
         className="w-10 h-10 border-2 border-gray-200 object-cover rounded-full transition-all duration-200 group-hover:border-blue-500 group-hover:shadow-lg group-hover:shadow-blue-100"
         onError={(e) => (e.target.src = "https://placehold.co/150x150")}
@@ -93,7 +105,10 @@ function ProfileCard({ variant = "concise" }) {
       <div className="absolute top-full mt-2 right-0 w-64 rounded-xl bg-white shadow-lg border border-gray-200 p-4 z-50">
         <div className="flex items-center gap-3 mb-3">
           <img
-            src={user?.profilePicUrl || "https://placehold.co/150x150"}
+            src={
+              user?.profilePicUrl ||
+              "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+            }
             alt={user?.name || "User"}
             className="w-12 h-12 rounded-full object-cover"
             onError={(e) => (e.target.src = "https://placehold.co/150x150")}
@@ -123,7 +138,10 @@ function ProfileCard({ variant = "concise" }) {
         <div className="px-4 py-3 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <img
-              src={user?.profilePicUrl || "https://placehold.co/150x150"}
+              src={
+                user?.profilePicUrl ||
+                "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+              }
               alt={user?.name || "User"}
               className="w-10 h-10 rounded-full object-cover"
               onError={(e) => (e.target.src = "https://placehold.co/150x150")}
@@ -146,6 +164,9 @@ function ProfileCard({ variant = "concise" }) {
             onClick={() => navigateTo("/profile")}
           >
             <User2 className="size-4 mr-1" /> Profile
+            {!user.isComplete && (
+              <CircleAlert className="text-red-600 w-4 ml-3" />
+            )}
           </button>
           <button
             className="w-full px-4 py-2 flex items-center text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"

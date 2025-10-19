@@ -4,6 +4,7 @@ import google from "../assets/google.svg";
 import bag from "../assets/shopping-bag.png";
 import people from "../assets/people.svg";
 import axios from "axios";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Register() {
@@ -26,14 +27,12 @@ function Register() {
   useEffect(() => {
     if (step === 2) {
       const validate = async () => {
-        // Validate name first
         const nameValid = validateName(name);
         if (!nameValid) {
           setStep(1);
           return;
         }
 
-        // Then validate email
         await validateEmail(email);
       };
 
@@ -41,9 +40,8 @@ function Register() {
     }
   }, [step, name, email]);
 
-  // Validate name function
-  function validateName(name) {
-    const trimmedName = name.trim();
+  function validateName(nameValue) {
+    const trimmedName = (nameValue || "").trim();
     if (trimmedName === "") {
       setNameError("Name cannot be empty");
       return false;
@@ -59,12 +57,11 @@ function Register() {
     return true;
   }
 
-  // Validate email function
-  async function validateEmail(email) {
+  async function validateEmail(emailValue) {
     try {
       const res = await axios.post(
         `${API_BASE}/api/service/validate-email`,
-        { email },
+        { email: emailValue },
         { headers: { "Content-Type": "application/json" } },
       );
 
@@ -92,37 +89,92 @@ function Register() {
     }
   }
 
-  // Password validation
-  function checkPassword() {
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters");
-      passwordRef.current.focus();
-    } else if (!/[A-Z]/.test(password)) {
-      setPasswordError("Password must contain a capital letter");
-      passwordRef.current.focus();
-    } else if (!/[0-9]/.test(password)) {
-      setPasswordError("Password must contain a numeric character");
-      passwordRef.current.focus();
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      setPasswordError("Password must contain a special character");
-      passwordRef.current.focus();
+  function validatePasswordStrength(pwd) {
+    const trimmedPassword = (pwd || "").trim();
+
+    if (!trimmedPassword || trimmedPassword.length < 8) {
+      return { valid: false, error: "Password must be at least 8 characters" };
+    }
+
+    if (!/[A-Z]/.test(trimmedPassword)) {
+      return { valid: false, error: "Password must contain a capital letter" };
+    }
+
+    if (!/[a-z]/.test(trimmedPassword)) {
+      return {
+        valid: false,
+        error: "Password must contain a lowercase letter",
+      };
+    }
+
+    if (!/[0-9]/.test(trimmedPassword)) {
+      return { valid: false, error: "Password must contain a number" };
+    }
+
+    if (!/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]/.test(trimmedPassword)) {
+      return {
+        valid: false,
+        error: "Password must contain a special character (!@#$%^&* etc.)",
+      };
+    }
+
+    return { valid: true, error: "" };
+  }
+
+  function handlePasswordInput(e) {
+    const pwd = e.target.value;
+    setPassword(pwd);
+
+    if (pwd) {
+      const validation = validatePasswordStrength(pwd);
+      if (!validation.valid) {
+        setPasswordError(validation.error);
+      } else {
+        setPasswordError("");
+      }
     } else {
-      confPasswordRef.current.focus();
       setPasswordError("");
     }
   }
 
-  // Confirm password validation
-  function checkConfirmPassword() {
-    if (passwordError !== "") {
-      passwordRef.current.focus();
+  function handleConfirmPasswordInput(e) {
+    const conf = e.target.value;
+    setConfPassword(conf);
+
+    if (conf) {
+      if (password !== conf) {
+        setConfPasswordError("Passwords do not match");
+      } else {
+        setConfPasswordError("");
+      }
+    } else {
       setConfPasswordError("");
-    } else if (password !== confPassword) {
-      setConfPasswordError("Passwords do not match");
-    } else if (password === confPassword) {
-      setConfPasswordError("");
-      handleSubmit();
     }
+  }
+
+  function checkPasswordFinal() {
+    const validation = validatePasswordStrength(password);
+    if (!validation.valid) {
+      setPasswordError(validation.error);
+      passwordRef.current?.focus();
+      return false;
+    }
+
+    if (!confPassword) {
+      setConfPasswordError("Confirm password cannot be empty");
+      confPasswordRef.current?.focus();
+      return false;
+    }
+
+    if (password !== confPassword) {
+      setConfPasswordError("Passwords do not match");
+      confPasswordRef.current?.focus();
+      return false;
+    }
+
+    setPasswordError("");
+    setConfPasswordError("");
+    return true;
   }
 
   function clearStates() {
@@ -133,18 +185,21 @@ function Register() {
     setNameError("");
     setPasswordError("");
     setConfPasswordError("");
+    setEmailError("");
   }
 
-  // Submit the data
   async function handleSubmit() {
+    // Final validation before submit
+    if (!checkPasswordFinal()) {
+      return;
+    }
+
     try {
       const res = await axios.post(`${API_BASE}/api/auth/register`, {
         name,
         email,
         password,
       });
-
-      console.log(res.data);
 
       if (res.status === 200) {
         clearStates();
@@ -164,9 +219,7 @@ function Register() {
 
   return (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      {/* Main Content */}
       <div className="flex flex-col md:flex-row w-full min-h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500 md:gap-14 lg:gap-16">
-        {/* Graphics */}
         <div className="md:w-7/12 md:flex hidden justify-center items-center">
           <img src={people} alt="people" />
         </div>
@@ -175,10 +228,8 @@ function Register() {
           <p className="text-2xl font-bold mb-4 text-gray-700">Welcome!</p>
         </div>
 
-        {/* Register form */}
         <div className="flex justify-center items-center md:w-3/12 md:min-w-sm w-sm h-auto md:pr-6 py-8">
           <div className="flex flex-col justify-center items-center w-full max-w-md bg-white gap-4 rounded-2xl shadow-lg p-4">
-            {/* Form Header */}
             <div className="flex flex-col items-center mb-6">
               <div className="hidden md:flex text-2xl font-semibold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent mb-2">
                 Welcome!
@@ -197,7 +248,7 @@ function Register() {
               <div className="text-sm text-gray-600 mt-2">
                 Already have an account?{" "}
                 <span
-                  className="text-cyan-800 cursor-pointer"
+                  className="text-cyan-800 cursor-pointer hover:underline"
                   onClick={() => navigate("/login")}
                 >
                   Login
@@ -206,25 +257,32 @@ function Register() {
             </div>
 
             {step === 1 && (
-              <form className="flex flex-col gap-4 w-full items-center">
+              <form
+                className="flex flex-col gap-4 w-full items-center"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <input
                   type="text"
                   name="name"
                   value={name}
                   placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setNameError("");
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
                       const nameValid = validateName(name);
                       if (nameValid) {
-                        emailRef.current.focus();
+                        emailRef.current?.focus();
                       }
                     }
                   }}
                   ref={nameRef}
                   className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="Full name"
+                  autoFocus
                 />
                 {nameError && (
                   <div className="text-red-600 text-sm" role="alert">
@@ -239,11 +297,15 @@ function Register() {
                   placeholder="example@mail.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
+                    setEmailError("");
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      setStep(2);
+                      const nameValid = validateName(name);
+                      if (nameValid) {
+                        setStep(2);
+                      }
                     }
                   }}
                   ref={emailRef}
@@ -259,12 +321,18 @@ function Register() {
                 <button
                   type="button"
                   className="bg-gray-800 text-white w-4/5 h-12 rounded-lg hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9] hover:text-gray-800 transition"
-                  onClick={() => setStep(2)}
+                  onClick={() => {
+                    const nameValid = validateName(name);
+                    if (nameValid) {
+                      setStep(2);
+                    }
+                  }}
                 >
                   Next →
                 </button>
               </form>
             )}
+
             {step === 2 && (
               <div className="flex flex-col gap-4 w-full items-center justify-center">
                 <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin"></div>
@@ -275,22 +343,28 @@ function Register() {
             )}
 
             {step === 3 && (
-              <form className="flex flex-col gap-4 w-full items-center">
+              <form
+                className="flex flex-col gap-4 w-full items-center"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <input
                   type="password"
                   name="password"
                   value={password}
                   placeholder="New Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordInput}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      checkPassword();
+                      if (!passwordError) {
+                        confPasswordRef.current?.focus();
+                      }
                     }
                   }}
                   ref={passwordRef}
                   className="p-3 rounded-lg h-12 w-4/5 text-gray-500 bg-[#F7F7F7]"
                   aria-label="New password"
+                  autoFocus
                 />
                 {passwordError && (
                   <div className="text-red-600 text-sm" role="alert">
@@ -303,11 +377,11 @@ function Register() {
                   name="confPassword"
                   value={confPassword}
                   placeholder="Confirm password"
-                  onChange={(e) => setConfPassword(e.target.value)}
+                  onChange={handleConfirmPasswordInput}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      checkConfirmPassword();
+                      handleSubmit();
                     }
                   }}
                   ref={confPasswordRef}
@@ -323,9 +397,7 @@ function Register() {
                 <button
                   type="button"
                   className="bg-gray-800 text-white w-4/5 h-12 rounded-lg hover:bg-gradient-to-r hover:from-[#C0E1F2] hover:to-[#99E0C9] hover:text-gray-800 transition"
-                  onClick={() => {
-                    checkConfirmPassword();
-                  }}
+                  onClick={handleSubmit}
                 >
                   Register →
                 </button>
@@ -350,4 +422,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

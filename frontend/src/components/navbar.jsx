@@ -8,12 +8,13 @@ import {
   Settings,
   Search,
   LogIn,
-  LogInIcon,
+  ShoppingCart,
 } from "lucide-react";
 import logo from "../assets/social.png";
 import axios from "axios";
 import UserProfileDropdown from "./userProfileDropdown.jsx";
 import useUser from "../hooks/useUser";
+import useCart from "../hooks/useCart.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,18 +24,21 @@ function Navbar() {
   const [checkingUser, setCheckingUser] = useState(true);
   const [searchBar, setSearchBar] = useState(false);
 
+  const { cartItems } = useCart();
+  const itemCount = Array.isArray(cartItems)
+    ? cartItems.reduce((sum, item) => sum + item.quantity, 0)
+    : 0;
+
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Global
   const { user, setUser } = useUser();
 
   const menuItems = [
     { name: "Home", icon: Home },
     { name: "Products", icon: Package },
     { name: "Orders", icon: ShoppingBag },
-    user?._id && { name: "Setting", icon: Settings },
-  ].filter(Boolean);
+    ...(user?._id ? [{ name: "Setting", icon: Settings }] : []),
+  ];
 
   // Fetch current user on mount
   useEffect(() => {
@@ -73,17 +77,25 @@ function Navbar() {
     navigate(`/${option}`);
   };
 
-  // Render auth button based on current page
+  // Render profile based on auth state
   const renderAuthButton = () => {
     if (user) {
       return <UserProfileDropdown variant="concise" showChevron={true} />;
     }
 
+    return <></>;
+  };
+
+  const renderAuthButtonDesktop = () => {
+    if (user) {
+      return <UserProfileDropdown variant="full" showChevron={true} />;
+    }
+
     if (location.pathname === "/login") {
       return (
         <button
-          className="text-blue-600 flex items-center font-medium text-sm hover:text-blue-700 transition-colors"
-          onClick={() => handleNavigation("register")}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          onClick={() => navigate("/register")}
         >
           <LogIn className="size-4 mr-1" /> Sign Up
         </button>
@@ -92,10 +104,10 @@ function Navbar() {
 
     return (
       <button
-        className="text-blue-600 font-medium flex items-center text-sm hover:text-blue-700 transition-colors"
+        className="flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
         onClick={() => navigate("/login")}
       >
-        <LogInIcon className="size-4 mr-1" /> Login
+        <LogIn className="size-4 mr-1" /> Login
       </button>
     );
   };
@@ -125,48 +137,38 @@ function Navbar() {
             </svg>
           </button>
 
-          {!searchBar && (
-            <div className="flex items-center cursor-pointer gap-2">
-              <img src={logo} alt="logo" className="w-8" />
-              <div
-                className="text-xl font-bold text-gray-900 cursor-pointer"
-                onClick={() => navigate("/home")}
-              >
-                QuickCart
-              </div>
+          <div className="flex items-center cursor-pointer gap-2">
+            <img src={logo} alt="logo" className="w-8" />
+            <div
+              className="text-xl font-bold text-gray-900 cursor-pointer"
+              onClick={() => navigate("/home")}
+            >
+              QuickCart
             </div>
-          )}
+          </div>
 
-          {/* Search Mobile */}
-
-          {searchBar && (
-            <input
-              type="text"
-              name="Search box"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search"
-              className="flex items-center flex-grow max-w-sm px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus-within:ring-2 focus-within:ring-blue-400 transition ml-4 mr-4 h-10"
-            />
-          )}
-
-          {/* User Profile */}
-          <div className="flex items-center justify-center gap-3 ">
-            {!searchBar && (
-              <div className="bg-gray-100 h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-200 ">
-                <Search onClick={() => setSearchBar(true)} />
-              </div>
-            )}
+          {/* Mobile Actions */}
+          <div className="flex items-center justify-center gap-3">
+            <button
+              className="bg-gray-100 h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition"
+              onClick={() => setSearchBar(!searchBar)}
+            >
+              <Search className="w-5 h-5" />
+            </button>
             {renderAuthButton()}
           </div>
         </div>
-
         {/* Desktop Navbar */}
         <div className="hidden md:flex h-full w-full items-center justify-between">
           {/* Logo */}
           <div className="flex items-center cursor-pointer gap-4 mr-4">
             <img src={logo} alt="logo" className="w-8" />
-            <div className="text-xl font-bold text-gray-900">QuickCart</div>
+            <div
+              className="text-xl font-bold text-gray-900 cursor-pointer hover:text-blue-600 transition"
+              onClick={() => navigate("/home")}
+            >
+              QuickCart
+            </div>
           </div>
 
           {/* Navigation */}
@@ -191,41 +193,52 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Responsive Search Bar */}
-          <div className="flex items-center flex-grow max-w-lg px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus-within:ring-2 focus-within:ring-blue-500 transition mr-2">
+          {/* Search Bar */}
+          <div className="flex items-center flex-grow max-w-lg px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus-within:ring-2 focus-within:ring-blue-500 transition mr-4">
             <Search className="text-gray-500 shrink-0" size={18} />
             <input
               type="text"
               name="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search..."
+              placeholder="Search products..."
               className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400 min-w-0 ml-2"
             />
           </div>
 
           {/* Auth Section */}
-          <div>
-            {user ? (
-              <UserProfileDropdown variant="full" showChevron={true} />
-            ) : location.pathname === "/login" ? (
-              <button
-                className="flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                onClick={() => navigate("/register")}
-              >
-                <LogIn className="size-4 mr-1" /> Sign Up
-              </button>
-            ) : (
-              <button
-                className="flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                onClick={() => navigate("/login")}
-              >
-                <LogIn className="size-4 mr-1" /> Login
-              </button>
-            )}
-          </div>
+          <div>{renderAuthButtonDesktop()}</div>
         </div>
+        {/* Floating Cart */}
+        <div className="absolute flex justify-center items-center bottom-12 right-8 h-12 w-12">
+          <button
+            onClick={() => navigate("/cart")}
+            className="relative p-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white transition-all duration-200 hover:-translate-y-1 active:scale-95 shadow-md hover:shadow-lg"
+          >
+            <ShoppingCart className="w-8 h-8" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md">
+                {itemCount}
+              </span>
+            )}
+          </button>
+        </div>{" "}
       </nav>
+
+      {/* Mobile Search Bar */}
+      {searchBar && (
+        <div className="md:hidden px-4 py-2 bg-white border-b border-gray-200">
+          <input
+            type="text"
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search products..."
+            className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition h-10"
+            autoFocus
+          />
+        </div>
+      )}
 
       {/* Overlay */}
       {menuOpen && (
@@ -239,7 +252,7 @@ function Navbar() {
       {/* Sliding Menu */}
       {menuOpen && (
         <div
-          className="fixed top-0 left-0 w-72 h-screen bg-white z-50 md:hidden shadow-xl"
+          className="fixed top-0 left-0 w-72 h-screen bg-white z-50 md:hidden shadow-xl flex flex-col"
           style={{ animation: "slideIn 0.3s ease-out" }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -258,12 +271,12 @@ function Navbar() {
           </div>
 
           {/* Menu Items */}
-          <div className="p-4 space-y-2">
+          <div className="flex-1 p-4 space-y-2 overflow-y-auto">
             {menuItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => handleNavigation(item.name.toLocaleLowerCase())}
-                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors group"
+                onClick={() => handleNavigation(item.name.toLowerCase())}
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors group"
               >
                 <item.icon className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
                 <span className="font-medium">{item.name}</span>
@@ -272,35 +285,37 @@ function Navbar() {
           </div>
 
           {/* Menu Footer */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+          <div className="border-t border-gray-200 p-4">
             {user ? (
               <div
-                className="flex items-center h-16 cursor-pointer gap-3 p-4 bg-gray-200 rounded-lg shadow-sm  border-gray-200 max-w-xs"
-                onClick={() => handleNavigation("profile")}
+                className="flex items-center gap-3 p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition"
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleNavigation("profile");
+                }}
               >
                 <img
-                  src={user.profilePicUrl}
+                  src={
+                    user.profilePicUrl ||
+                    "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+                  }
                   alt={user.name}
-                  className="w-12 h-12 rounded-full object-cover border-gray-100"
+                  className="w-10 h-10 rounded-full object-cover"
                 />
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-gray-900 truncate">
                   {user.name}
                 </span>
               </div>
             ) : location.pathname === "/login" ? (
               <button
-                onClick={() => {
-                  handleNavigation("register");
-                }}
+                onClick={() => handleNavigation("register")}
                 className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Sign Up
               </button>
             ) : (
               <button
-                onClick={() => {
-                  handleNavigation("login");
-                }}
+                onClick={() => handleNavigation("login")}
                 className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Login

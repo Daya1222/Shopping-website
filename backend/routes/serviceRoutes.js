@@ -8,7 +8,7 @@ router.post("/validate-email", validateEmail);
 router.get("/get-current-user", async (req, res) => {
     const token = req.cookies.token;
     const user = await getCurrentUser(token);
-    if (!user) return res.status(200).json({ msg: "No Cookie" });
+    if (!user) return res.status(401).json({ msg: "Unauthorized" });
     res.status(200).json({ user: user });
 });
 

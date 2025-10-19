@@ -5,7 +5,7 @@ import axios from "axios";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Landing() {
-  return <div> why the hech is thi sbeign rendered</div>;
+  return <div> </div>;
 }
 
 export default Landing;
