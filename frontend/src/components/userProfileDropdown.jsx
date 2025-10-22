@@ -6,7 +6,6 @@ import {
   Settings,
   User2,
   LogOut,
-  MessageCircleWarning,
   CircleAlert,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -16,13 +15,13 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 function ProfileCard({ variant = "concise" }) {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
+
   const [profileMenu, setProfileMenu] = useState(false);
   const [showHover, setShowHover] = useState(false);
   const menuRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
 
   const isFull = variant === "full";
-  console.log(user);
 
   const toggleMenu = () => {
     setProfileMenu(!profileMenu);
@@ -37,16 +36,24 @@ function ProfileCard({ variant = "concise" }) {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${API_BASE}/api/auth/logout`, {
+      const res = await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
-    } catch (error) {
-      console.error("Logout error:", error);
+
+      if (!res.ok) {
+        console.error("Logout failed with status:", res.status);
+      } else {
+        const data = await res.json().catch(() => null);
+        if (data?.msg) {
+          console.log(data.msg);
+        }
+      }
+    } catch (err) {
+      console.error("Logout error:", err);
     } finally {
-      // Always clear user and redirect, even if logout fails
       setUser(null);
-      navigateTo("/");
+      navigate("/");
     }
   };
 
@@ -164,7 +171,7 @@ function ProfileCard({ variant = "concise" }) {
             onClick={() => navigateTo("/profile")}
           >
             <User2 className="size-4 mr-1" /> Profile
-            {!user.isComplete && (
+            {!user?.isComplete && (
               <CircleAlert className="text-red-600 w-4 ml-3" />
             )}
           </button>

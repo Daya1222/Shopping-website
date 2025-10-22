@@ -10,7 +10,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
 import Navbar from "./components/navbar.jsx";
 import Profile from "./pages/profile.jsx";
+import AddProduct from "./pages/addProduct.jsx";
+import Products from "./pages/products.jsx";
 import Help from "./pages/help.jsx";
+import Cart from "./pages/cart.jsx";
 
 function App() {
   return (
@@ -35,6 +38,24 @@ function App() {
                 </ProtectedRoutes>
               }
             />
+
+            <Route
+              path="/seller/add-product"
+              element={
+                <ProtectedRoutes>
+                  <AddProduct />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="/products"
+              element={
+                <ProtectedRoutes>
+                  <Products />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/help" element={<Help />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

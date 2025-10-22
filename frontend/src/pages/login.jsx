@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import google from "../assets/google.svg";
@@ -10,11 +10,7 @@ import useUser from "../hooks/useUser";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Login() {
-  //Global contexts
-  const { user } = useUser();
-
-  const { checkingUser } = useOutletContext();
-
+  const { user, loading } = useUser();
   //Local states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -94,7 +90,7 @@ function Login() {
     }
   }
 
-  if (checkingUser) return null;
+  if (loading) return <div>Loading....</div>;
   return (
     <div className="flex flex-col  w-full h-full items-center justify-center">
       {/* Main Content */}
@@ -115,7 +111,7 @@ function Login() {
             <div className="flex flex-col items-center mb-6">
               <div className="text-3xl font-bold text-gray-800">Log in to</div>
               <div>
-                <span className="text-3xl font-bold text-gray-800">your </span>
+                <span className="text-3xl font-bold text-gray-800">your</span>
                 <span className="bg-gradient-to-r from-[#C0E1F2] to-[#99E0C9] text-transparent bg-clip-text text-3xl font-bold">
                   ɑccount
                 </span>
@@ -192,7 +188,7 @@ function Login() {
                 className="flex items-center justify-center gap-2 w-4/5 h-12 p-3 text-gray-800 bg-[#F7F7F7] rounded-2xl hover:bg-[#E5E5E5] transition"
               >
                 <img src={google} alt="google" className="h-8" />
-                <a href={`${API_BASE}/oauth/google`}>Sign in with Google</a>
+                <a href={`${API_BASE}/oauth/google`}>Sign up with Google</a>
               </button>
             </form>
           </div>

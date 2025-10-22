@@ -11,12 +11,9 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import logo from "../assets/social.png";
-import axios from "axios";
 import UserProfileDropdown from "./userProfileDropdown.jsx";
 import useUser from "../hooks/useUser";
 import useCart from "../hooks/useCart.jsx";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,14 +21,16 @@ function Navbar() {
   const [checkingUser, setCheckingUser] = useState(true);
   const [searchBar, setSearchBar] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, setUser, setLoading } = useUser();
+
   const { cartItems } = useCart();
   const itemCount = Array.isArray(cartItems)
     ? cartItems.reduce((sum, item) => sum + item.quantity, 0)
     : 0;
-
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user, setUser } = useUser();
+  const cartVisibleRoutes = ["/home", "/profile", "/seller/add"];
+  const showCart = cartVisibleRoutes.includes(location.pathname);
 
   const menuItems = [
     { name: "Home", icon: Home },
@@ -39,36 +38,6 @@ function Navbar() {
     { name: "Orders", icon: ShoppingBag },
     ...(user?._id ? [{ name: "Setting", icon: Settings }] : []),
   ];
-
-  // Fetch current user on mount
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setCheckingUser(true);
-        const res = await axios.get(
-          `${API_BASE}/api/service/get-current-user`,
-          {
-            withCredentials: true,
-          },
-        );
-
-        if (res.data.user) {
-          setUser(res.data.user);
-
-          // Redirect to home if on public routes
-          if (["/", "/login", "/register"].includes(location.pathname)) {
-            navigate("/home");
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching user:", err);
-      } finally {
-        setCheckingUser(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -210,19 +179,21 @@ function Navbar() {
           <div>{renderAuthButtonDesktop()}</div>
         </div>
         {/* Floating Cart */}
-        <div className="absolute flex justify-center items-center bottom-12 right-8 h-12 w-12">
-          <button
-            onClick={() => navigate("/cart")}
-            className="relative p-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white transition-all duration-200 hover:-translate-y-1 active:scale-95 shadow-md hover:shadow-lg"
-          >
-            <ShoppingCart className="w-8 h-8" />
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md">
-                {itemCount}
-              </span>
-            )}
-          </button>
-        </div>{" "}
+        {showCart && (
+          <div className="absolute flex justify-center items-center bottom-12 right-8 h-12 w-12">
+            <button
+              onClick={() => navigate("/cart")}
+              className="relative p-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white transition-all duration-200 hover:-translate-y-1 active:scale-95 shadow-md hover:shadow-lg"
+            >
+              <ShoppingCart className="w-8 h-8" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Mobile Search Bar */}

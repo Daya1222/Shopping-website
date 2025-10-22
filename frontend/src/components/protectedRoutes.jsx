@@ -1,17 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-function ProtectedRoutes({ children }) {
-  const { user } = useUser();
-  const navigate = useNavigate(null);
-  if (!user || !user._id) {
-    useEffect(() => {
+function ProtectedRoutes({ children, sellerOnly = false }) {
+  const { user, loading } = useUser(); // assume your hook can expose a loading state
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) return; // don’t redirect until we know
+    if (!user || !user._id) {
       navigate("/");
-    });
-  } else {
-    return children;
+    } else if (sellerOnly && user.role !== "seller") {
+      navigate("/");
+    }
+  }, [user, sellerOnly, navigate, loading]);
+
+  if (loading) {
+    return <div>Loading...</div>; // or a spinner
   }
+
+  if (!user || (sellerOnly && user.role !== "seller")) {
+    return null;
+  }
+
+  return children;
 }
 
 export default ProtectedRoutes;

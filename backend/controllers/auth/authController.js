@@ -31,8 +31,10 @@ function logout(req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        path: "/", // must match login
     });
-    res.json({ msg: "Logged out" });
+
+    return res.json({ msg: "Logged out", success: true });
 }
 
 export { register, login, logout };

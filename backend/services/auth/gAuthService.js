@@ -14,7 +14,6 @@ async function loginOrRegisterGoogleUser(payload) {
         if (!user.profilePicUrl && profilePicUrl)
             updates.profilePicUrl = profilePicUrl;
         if (!user.name && name) updates.name = name;
-        if (!user.isComplete) updates.isComplete = true;
 
         if (Object.keys(updates).length > 0) {
             Object.assign(user, updates);
@@ -27,7 +26,7 @@ async function loginOrRegisterGoogleUser(payload) {
             googleId,
             isVerified,
             profilePicUrl,
-            isComplete: true,
+            isComplete: false,
         });
     }
 
