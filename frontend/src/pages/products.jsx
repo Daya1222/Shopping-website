@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../components/producCard";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 
 function Product() {
   const navigate = useNavigate();
+
   return (
     <div>
       {/* Add Product  */}
@@ -23,15 +25,9 @@ function Product() {
             "https://images.pexels.com/photos/1005324/literature-book-open-pages-1005324.jpeg?cs=srgb&dl=antique-book-book-bindings-1005324.jpg&fm=jpg"
           }
           rating={4}
+          variant={"seller"}
         />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        <ProductCard variant="seller" />
       </div>
     </div>
   );
