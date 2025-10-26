@@ -16,6 +16,8 @@ function ProfileCard({ variant = "concise" }) {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
 
+  console.log(user.profilePicUrl);
+
   const [profileMenu, setProfileMenu] = useState(false);
   const [showHover, setShowHover] = useState(false);
   const menuRef = useRef(null);
@@ -93,11 +95,18 @@ function ProfileCard({ variant = "concise" }) {
       <img
         src={
           user?.profilePicUrl ||
-          "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+          "https://ui-avatars.com/api/?name=" +
+            encodeURIComponent(user?.name || "User")
         }
-        alt={user?.name || "User"}
+        alt={user?.name}
+        onError={(e) => {
+          console.error("Image load error:", e);
+          // Prevent infinite loop
+          if (e.target.src !== "https://ui-avatars.com/api/?name=User") {
+            e.target.src = "https://ui-avatars.com/api/?name=User";
+          }
+        }}
         className="w-10 h-10 border-2 border-gray-200 object-cover rounded-full transition-all duration-200 group-hover:border-blue-500 group-hover:shadow-lg group-hover:shadow-blue-100"
-        onError={(e) => (e.target.src = "https://placehold.co/150x150")}
       />
       <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 border border-gray-200 shadow-sm group-hover:border-blue-400 transition-colors duration-200">
         <ChevronDown className="w-3 h-3 text-gray-500 group-hover:text-blue-600 transition-colors duration-200" />

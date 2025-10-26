@@ -18,51 +18,49 @@ import Cart from "./pages/cart.jsx";
 function App() {
   return (
     <BrowserRouter>
-      <UserProvider>
-        <Routes>
-          <Route element={<Navbar />}>
-            <Route path="/" element={<Landing />} />
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoutes>
-                  <Home />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoutes>
-                  <Profile />
-                </ProtectedRoutes>
-              }
-            />
+      <Routes>
+        <Route element={<Navbar />}>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoutes>
+                <Home />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoutes>
+                <Profile />
+              </ProtectedRoutes>
+            }
+          />
 
-            <Route
-              path="/seller/add-product"
-              element={
-                <ProtectedRoutes>
-                  <AddProduct />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="/products"
-              element={
-                <ProtectedRoutes>
-                  <Products />
-                </ProtectedRoutes>
-              }
-            />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </UserProvider>
+          <Route
+            path="/seller/add-product"
+            element={
+              <ProtectedRoutes>
+                <AddProduct />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoutes>
+                <Products />
+              </ProtectedRoutes>
+            }
+          />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }

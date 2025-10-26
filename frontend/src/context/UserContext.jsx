@@ -34,8 +34,24 @@ function UserProvider({ children }) {
     fetchUser();
   }, []);
 
+  const refreshUser = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${API_BASE}/api/service/get-current-user`, {
+        withCredentials: true,
+      });
+      setUser(res.data.user || null);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, loading, setLoading }}>
+    <UserContext.Provider
+      value={{ user, setUser, loading, setLoading, refreshUser }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -84,11 +84,11 @@ function Navbar() {
   return (
     <div className="relative h-screen w-screen flex flex-col overflow-hidden">
       {/* Navbar */}
-      <nav className="flex w-full h-14 md:h-16 bg-white items-center px-4 border-b border-gray-200">
+      <nav className="flex w-full h-14 md:h-16 bg-gray-200 items-center px-4 border-b border-gray-300">
         {/* Mobile Navbar */}
         <div className="flex md:hidden h-full w-full items-center justify-between">
           <button
-            className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition"
+            className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-300 transition"
             onClick={toggleMenu}
           >
             <svg
@@ -119,7 +119,7 @@ function Navbar() {
           {/* Mobile Actions */}
           <div className="flex items-center justify-center gap-3">
             <button
-              className="bg-gray-100 h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition"
+              className=" h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-400 bg-gray-300 transition"
               onClick={() => setSearchBar(!searchBar)}
             >
               <Search className="w-5 h-5" />
@@ -198,14 +198,14 @@ function Navbar() {
 
       {/* Mobile Search Bar */}
       {searchBar && (
-        <div className="md:hidden px-4 py-2 bg-white border-b border-gray-200">
+        <div className="md:hidden px-4 py-2 bg-gray-200 border-gray-100">
           <input
             type="text"
             name="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products..."
-            className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition h-10"
+            className="w-full px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-1 transition h-10"
             autoFocus
           />
         </div>
