@@ -10,7 +10,7 @@ async function getCurrentUser(token) {
             { _id: decoded._id },
             "-passwordHash -__v",
         );
-        console.log(reqUser);
+        console.log("User id: ", reqUser._id);
         return reqUser || null;
     } catch {
         return null;

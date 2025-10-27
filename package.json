@@ -1,5 +1,12 @@
 {
-  "dependencies": {
-    "react-router-dom": "^7.9.2"
-  }
+    "dependencies": {
+        "concurrency": "^0.1.4",
+        "react-router-dom": "^7.9.2"
+    },
+    "scripts": {
+        "dev": "concurrently -n FRONTEND,BACKEND -c cyan,green \"npm --prefix frontend run dev\" \"npm --prefix backend run dev\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    }
 }

@@ -45,7 +45,7 @@ async function handleGauthCallback(req, res) {
         httpOnly: true,
         secure: false,
         sameSite: "Lax",
-        maxAge: 86400000,
+        maxAge: 2592000000,
     }).redirect(FRONTEND_URL);
 }
 

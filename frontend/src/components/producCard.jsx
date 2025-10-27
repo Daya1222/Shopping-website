@@ -1,6 +1,8 @@
 import { Edit, Star, StarHalf, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const IMAGE_BASE = import.meta.env.VITE_IMAGE_BASE_URL;
+
 function ProductCard({ name, price, slug, image, rating, variant = "buyer" }) {
   function handleClick(action) {
     if (action === "delete") {
@@ -9,6 +11,8 @@ function ProductCard({ name, price, slug, image, rating, variant = "buyer" }) {
       alert(action);
     }
   }
+  console.log(image);
+  console.log(IMAGE_BASE);
 
   function Rating({ rating }) {
     return (
@@ -41,14 +45,14 @@ function ProductCard({ name, price, slug, image, rating, variant = "buyer" }) {
   return (
     <Link
       to={`/product/${slug}`}
-      className="flex flex-col w-full h-full  rounded-xl shadow-xl transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl"
+      className="flex flex-col w-full min-h-full  rounded-xl shadow-xl transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl"
     >
       {/* Image */}
       <div className="h-3/4 w-full rounded-t-2xl overflow-hidden bg-gray-100">
         <img
-          src={image || "https://placehold.net/default.png"}
+          src={`${IMAGE_BASE}${image}` || "https://placehold.net/default.png"}
           alt={name || "Unknown"}
-          className="w-full h-full object-cover"
+          className="w-full min-h-full object-cover"
         />
       </div>
       {/* Info */}

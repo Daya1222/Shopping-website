@@ -2,10 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../components/producCard";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import useProducts from "../hooks/useProduct";
+import useUser from "../hooks/useUser.jsx";
 
 function Product() {
   const navigate = useNavigate();
 
+  const { products } = useProducts();
+  const { user } = useUser();
   return (
     <div>
       {/* Add Product  */}
@@ -18,16 +22,19 @@ function Product() {
       </div>
       {/* Product list */}
       <div className="grid place-items-center lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 pl-2 pr-2 pb-2 gap-2">
-        <ProductCard
-          name="book"
-          price={45}
-          image={
-            "https://images.pexels.com/photos/1005324/literature-book-open-pages-1005324.jpeg?cs=srgb&dl=antique-book-book-bindings-1005324.jpg&fm=jpg"
-          }
-          rating={4}
-          variant={"seller"}
-        />
-        <ProductCard variant="seller" />
+        {products
+          .filter((item) => item.seller !== user._id)
+          .map((item) => {
+            return (
+              <ProductCard
+                key={item.name}
+                name={item.name}
+                price={item.price}
+                image={item.image}
+                rating={item.rating}
+              />
+            );
+          })}
       </div>
     </div>
   );

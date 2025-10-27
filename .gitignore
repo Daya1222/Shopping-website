@@ -1,16 +1,8 @@
-# Node modules
-/frontend/node_modules/
- /backend/node_modules/
-
-# Build/dist folders
-/frontend/dist/
-/backend/dist/
-
-# Environment files
-/frontend/.env
-/backend/.env
-
-# OS & editor files
-.DS_Store
+**/node_modules/
+**/dist/
+**/build/
+**/.env
 *.log
+.DS_Store
+
 
