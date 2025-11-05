@@ -72,7 +72,7 @@ async function loginUser({ email, password }) {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // false in dev
             sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-            maxAge: 30 * 24 * 60 * 60 * 1000,
+            maxAge: 2592000000,
         },
     };
 }

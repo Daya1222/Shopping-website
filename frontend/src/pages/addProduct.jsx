@@ -24,7 +24,14 @@ function AddProduct() {
   const [categoryError, setCategoryError] = useState("");
   const [imageError, setImageError] = useState("");
 
-  const categories = ["Electronics", "Clothing", "Books", "Home", "Toys"];
+  const categories = [
+    "Electronics",
+    "Fashion",
+    "Home & Living",
+    "Health & Personal Care",
+    "Groceries",
+    "Toys & Games",
+  ];
 
   // Refs for inputs
   const fileInputRef = useRef(null);

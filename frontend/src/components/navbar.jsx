@@ -84,7 +84,7 @@ function Navbar() {
   return (
     <div className="relative h-screen w-screen flex flex-col overflow-hidden">
       {/* Navbar */}
-      <nav className="flex w-full h-14 md:h-16 bg-gray-200 items-center px-4 border-b border-gray-300">
+      <nav className="flex w-full h-14 md:h-16 bg-white border-b border-gray-200 items-center px-4">
         {/* Mobile Navbar */}
         <div className="flex md:hidden h-full w-full items-center justify-between">
           <button
@@ -119,7 +119,7 @@ function Navbar() {
           {/* Mobile Actions */}
           <div className="flex items-center justify-center gap-3">
             <button
-              className=" h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-400 bg-gray-300 transition"
+              className=" h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-200 active:bg-gray-300 bg-gray-100 transition"
               onClick={() => setSearchBar(!searchBar)}
             >
               <Search className="w-5 h-5" />

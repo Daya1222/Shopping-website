@@ -94,7 +94,7 @@ function Login() {
   return (
     <div className="flex flex-col  w-full h-full items-center justify-center">
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row w-full h-full min-h-full justify-center items-center bg-gradient-to-r from-[#BED3DC] to-[#CAD9D4] transition-all duration-500 md:gap-14 lg:gap-16">
+      <div className="flex flex-col md:flex-row w-full h-full min-h-full justify-center items-center   bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0] transition-all duration-500 md:gap-14 lg:gap-16">
         {/* Left Side Graphics */}
         <div className="md:w-7/12 md:flex hidden justify-center items-center">
           <img src={people} alt="people" />

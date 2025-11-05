@@ -9,14 +9,13 @@ import {
   CircleAlert,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function ProfileCard({ variant = "concise" }) {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
-
-  console.log(user.profilePicUrl);
 
   const [profileMenu, setProfileMenu] = useState(false);
   const [showHover, setShowHover] = useState(false);
@@ -30,6 +29,10 @@ function ProfileCard({ variant = "concise" }) {
     setShowHover(false);
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
   };
+
+  useEffect(() => {
+    axios.get(user.profilePicUrl);
+  }, [user]);
 
   const navigateTo = (path) => {
     setProfileMenu(false);
@@ -94,10 +97,11 @@ function ProfileCard({ variant = "concise" }) {
     <div className="relative">
       <img
         src={
-          user?.profilePicUrl ||
+          user.profilePicUrl ||
           "https://ui-avatars.com/api/?name=" +
             encodeURIComponent(user?.name || "User")
         }
+        referrerPolicy="no-referrer"
         alt={user?.name}
         onError={(e) => {
           console.error("Image load error:", e);

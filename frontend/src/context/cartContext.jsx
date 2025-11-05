@@ -5,8 +5,22 @@ const CartContext = createContext();
 function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
-  const addItem = (item) => {
-    setCartItems((prev) => [...prev, item]);
+  const addItem = (newItem) => {
+    setCartItems((prev) => {
+      const existing = prev.find(
+        (item) => item.product._id === newItem.product._id,
+      );
+
+      if (existing) {
+        return prev.map((item) =>
+          item.product._id === newItem.product._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      } else {
+        return [...prev, { product: newItem.product, quantity: 1 }];
+      }
+    });
   };
 
   const removeItem = (id) => {
