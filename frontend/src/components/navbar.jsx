@@ -180,7 +180,7 @@ function Navbar() {
         </div>
         {/* Floating Cart */}
         {showCart && (
-          <div className="absolute flex justify-center items-center bottom-12 right-8 h-12 w-12">
+          <div className="absolute flex justify-center items-center bottom-12 right-8 h-12 w-12 z-50">
             <button
               onClick={() => navigate("/cart")}
               className="relative p-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white transition-all duration-200 hover:-translate-y-1 active:scale-95 shadow-md hover:shadow-lg"

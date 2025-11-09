@@ -14,6 +14,7 @@ import AddProduct from "./pages/addProduct.jsx";
 import Products from "./pages/products.jsx";
 import Help from "./pages/help.jsx";
 import Cart from "./pages/cart.jsx";
+import Checkout from "./pages/checkout.jsx";
 
 function App() {
   return (
@@ -54,7 +55,22 @@ function App() {
               </ProtectedRoutes>
             }
           />
-          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoutes>
+                <Cart />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoutes>
+                <Checkout />
+              </ProtectedRoutes>
+            }
+          />
           <Route path="/help" element={<Help />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

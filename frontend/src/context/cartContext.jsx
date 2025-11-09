@@ -17,22 +17,33 @@ function CartProvider({ children }) {
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
-      } else {
-        return [...prev, { product: newItem.product, quantity: 1 }];
       }
+      return [...prev, { product: newItem.product, quantity: 1 }];
     });
   };
 
+  const decrementItem = (id) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item.product._id === id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
+  };
+
   const removeItem = (id) => {
-    setCartItems((prev) => {
-      prev.filter((item) => item._id !== id);
-    });
+    setCartItems((prev) => prev.filter((item) => item.product._id !== id));
   };
 
   const clearCart = () => setCartItems([]);
 
   return (
-    <CartContext.Provider value={{ cartItems, addItem, removeItem, clearCart }}>
+    <CartContext.Provider
+      value={{ cartItems, addItem, decrementItem, removeItem, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );

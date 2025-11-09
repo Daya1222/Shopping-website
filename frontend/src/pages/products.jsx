@@ -1,17 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../components/productCard";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 import useProducts from "../hooks/useProduct";
 import useUser from "../hooks/useUser.jsx";
+import Footer from "../components/footer.jsx";
 
 function Product() {
   const navigate = useNavigate();
 
   const { products } = useProducts();
   const { user } = useUser();
+
   return (
-    <div>
+    <div className="w-full h-full">
       {/* Add Product  */}
       {(user.role === "seller" || user.role === "admin") && (
         <div
@@ -25,15 +26,17 @@ function Product() {
       {/* Product list */}
       <div className="grid place-items-center grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 pl-2 pr-2 pb-2 gap-2">
         {products
-          .filter((item) => item.seller !== user._id)
+          .filter((item) => item.sellerId === user._id)
           .map((item) => {
             return (
               <ProductCard
-                key={item.name}
+                key={item._id}
+                _id={item._id}
                 name={item.name}
                 price={item.price}
                 image={item.image}
                 rating={item.rating}
+                slug={item.slug}
                 variant={
                   user.role === "seller" || user.role === "admin"
                     ? "seller"
@@ -43,6 +46,7 @@ function Product() {
             );
           })}
       </div>
+      <Footer />
     </div>
   );
 }

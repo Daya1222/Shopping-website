@@ -1,14 +1,21 @@
-import { useRef, useState } from "react";
-import { ArrowBigRight } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import {
+  ArrowBigLeft,
+  ArrowBigRight,
+  Cross,
+  Edit2Icon,
+  EraserIcon,
+  ImageIcon,
+} from "lucide-react";
 import axios from "axios";
 import useProducts from "../hooks/useProduct";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-function AddProduct() {
+function UpdateProduct({ productId, setStatus }) {
   const [step, setStep] = useState(1);
 
-  const { refetchProducts } = useProducts();
+  const { refetchProducts, products } = useProducts();
 
   // Form data
   const [name, setName] = useState("");
@@ -18,6 +25,7 @@ function AddProduct() {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [isNewImage, setIsNewImage] = useState(false);
 
   // Error states
   const [nameError, setNameError] = useState("");
@@ -26,6 +34,8 @@ function AddProduct() {
   const [stockError, setStockError] = useState("");
   const [categoryError, setCategoryError] = useState("");
   const [imageError, setImageError] = useState("");
+
+  const reqProduct = products.find((item) => item._id === productId);
 
   const categories = [
     "Electronics",
@@ -44,6 +54,19 @@ function AddProduct() {
   const stockRef = useRef(null);
   const categoryRef = useRef(null);
 
+  // Initialize form with existing product data
+  useEffect(() => {
+    if (reqProduct) {
+      setName(reqProduct.name);
+      setDescription(reqProduct.description);
+      setPrice(reqProduct.price.toString());
+      setStock(reqProduct.stock.toString());
+      setCategory(reqProduct.category);
+      setImagePreview(reqProduct.image); // Set existing image URL as preview
+      setIsNewImage(false);
+    }
+  }, [reqProduct]);
+
   const handleDivClick = () => {
     fileInputRef.current.click();
   };
@@ -54,7 +77,17 @@ function AddProduct() {
       setImage(file);
       const previewUrl = URL.createObjectURL(file);
       setImagePreview(previewUrl);
+      setIsNewImage(true);
       setImageError("");
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImage(null);
+    setImagePreview(reqProduct.image); // Reset to original image
+    setIsNewImage(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -115,10 +148,6 @@ function AddProduct() {
 
   const validateStep2 = () => {
     setImageError("");
-    if (!image) {
-      setImageError("Please upload an image");
-      return false;
-    }
     return true;
   };
 
@@ -140,27 +169,31 @@ function AddProduct() {
   const handleSubmit = async () => {
     if (validateStep2()) {
       try {
-        // Create FormData for image upload
-        const formData = new FormData();
-        formData.append("image", image);
+        let imgUrl = reqProduct.image;
 
-        // Upload image
-        const imageResponse = await axios.post(
-          `${API_BASE}/api/images/`,
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "multipart/form-data",
+        if (isNewImage && image) {
+          const formData = new FormData();
+          formData.append("image", image);
+
+          const imageResponse = await axios.post(
+            `${API_BASE}/api/images/`,
+            formData,
+            {
+              withCredentials: true,
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
             },
-          },
-        );
+          );
 
-        // Get the image URL from response
-        const imgUrl = imageResponse.data.image;
+          imgUrl = imageResponse.data.image;
+        }
 
-        const productResponse = await axios.post(
-          `${API_BASE}/api/product/`,
+        // TODO: Replace this with your actual product update endpoint
+        // Example: PUT or PATCH request to update the product
+
+        const productResponse = await axios.put(
+          `${API_BASE}/api/product/${productId}`,
           {
             name,
             description,
@@ -169,31 +202,19 @@ function AddProduct() {
             category,
             image: imgUrl,
           },
-
           {
             withCredentials: true,
           },
         );
 
-        if (imageResponse.status === 200 && productResponse.status === 200) {
-          console.log("Product created successfully:", productResponse.data);
-
-          // Reset form
-          setName("");
-          setDescription("");
-          setPrice("");
-          setStock("");
-          setCategory("");
-          setImage(null);
-          setImagePreview(null);
-          setStep(1);
+        if (productResponse.status === 200) {
+          console.log("Product updated successfully:", productResponse.data);
           await refetchProducts();
-
-          // Show success message (you can replace with a toast notification)
-          alert("Product published successfully!");
+          setStatus(false);
+          alert("Product updated successfully!");
         }
       } catch (error) {
-        console.error("Error publishing product:", error);
+        console.error("Error updating product:", error);
 
         if (error.response) {
           console.error("Backend error:", error.response.data);
@@ -208,13 +229,14 @@ function AddProduct() {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-screen h-full bg-white p-4">
+    <div className="flex flex-col rounded-md items-center w-full max-w-screen h-full max-h-full overflow-scroll bg-white p-4 text-gray-700 font-medium">
       {/* First Page */}
       {step === 1 && (
         <div className="bg-white rounded-2xl w-full max-w-2xl space-y-4">
           {/* Heading */}
-          <div className="flex justify-center font-medium text-2xl mt-4">
-            Product Details
+          <div className="text-gray-700 flex justify-center items-center font-medium text-2xl mt-4">
+            <Edit2Icon className="m-3" />
+            Edit Product Details
           </div>
 
           {/* Name */}
@@ -242,7 +264,6 @@ function AddProduct() {
             </label>
             <textarea
               ref={descriptionRef}
-              placeholder="Describe the product.."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e, priceRef)}
@@ -314,7 +335,14 @@ function AddProduct() {
 
           <div className="flex justify-center w-full">
             <button
-              className="text-xl text-gray-600 hover:text-gray-900 px-6 h-10 rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200 m-10"
+              className="text-xl text-gray-600 hover:text-gray-900 px-6 h-10 rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200 m-5"
+              onClick={() => setStatus(false)}
+            >
+              Cancel <EraserIcon />
+            </button>
+
+            <button
+              className="text-xl text-gray-600 hover:text-gray-900 px-6 h-10 rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200 m-5"
               onClick={handleNext}
             >
               Next <ArrowBigRight />
@@ -322,19 +350,35 @@ function AddProduct() {
           </div>
         </div>
       )}
-
       {/* Second Page */}
       {step === 2 && (
         <div className="flex flex-col justify-center items-center bg-white w-full max-w-2xl mt-8 space-y-4">
           {/* Heading */}
-          <div className="font-medium text-2xl">Upload Image</div>
+          <div className="font-medium text-2xl flex items-center gap-2">
+            <ImageIcon /> Update Product Image
+          </div>
 
-          {!imagePreview && (
+          <p className="text-gray-600 text-sm text-center">
+            {isNewImage
+              ? "New image selected. Click 'Keep Current Image' to revert."
+              : "Current image is shown. Click to upload a new image."}
+          </p>
+
+          {/* Image Preview Area */}
+          <div className="w-full flex flex-col items-center space-y-3">
             <div
               onClick={handleDivClick}
-              className="w-full h-40 bg-gray-200 rounded flex items-center justify-center cursor-pointer hover:bg-gray-300 transition"
+              className="w-full max-w-md h-64 bg-gray-200 rounded flex items-center justify-center cursor-pointer hover:bg-gray-300 transition overflow-hidden"
             >
-              <span className="text-gray-600">Click to upload image</span>
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Product Preview"
+                  className="object-contain w-full h-full"
+                />
+              ) : (
+                <span className="text-gray-600">Click to upload image</span>
+              )}
               <input
                 type="file"
                 accept="image/*"
@@ -343,17 +387,16 @@ function AddProduct() {
                 className="hidden"
               />
             </div>
-          )}
 
-          {imagePreview && (
-            <div className="flex justify-center items-center bg-gray-300 rounded overflow-hidden ">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="object-contain w-full h-full"
-              />
-            </div>
-          )}
+            {isNewImage && (
+              <button
+                className="text-sm text-blue-600 hover:text-blue-800 underline"
+                onClick={handleRemoveImage}
+              >
+                Keep Current Image (Undo Changes)
+              </button>
+            )}
+          </div>
 
           {imageError && <p className="text-red-500 text-sm">{imageError}</p>}
 
@@ -362,13 +405,13 @@ function AddProduct() {
               className="text-xl text-gray-600 hover:text-gray-900 px-6 h-10 rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200"
               onClick={() => setStep(1)}
             >
-              Back
+              <ArrowBigLeft /> Back
             </button>
             <button
-              className="text-xl text-gray-600 hover:text-gray-900 px-6 h-10 rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200"
+              className="text-xl text-gray-600 hover:text-gray-900 px-6 h-fit rounded-sm flex justify-center items-center gap-2 bg-gray-300 hover:bg-gray-400 transition duration-200 p-2"
               onClick={handleSubmit}
             >
-              Publish Product <ArrowBigRight />
+              Update Product <ArrowBigRight />
             </button>
           </div>
         </div>
@@ -377,4 +420,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default UpdateProduct;

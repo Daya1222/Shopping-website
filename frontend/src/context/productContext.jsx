@@ -8,19 +8,26 @@ function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
+  const refetchProducts = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/product`);
+      if (!res.ok) throw new Error("Failed to fetch products");
+      const data = await res.json();
+      setProducts(data);
+      setIsHydrated(true);
+    } catch (err) {
+      console.error("Error refreshing products:", err);
+    }
+  };
+
   useEffect(() => {
     if (!isHydrated) {
-      fetch(`${API_BASE}/api/product`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(data);
-          setIsHydrated(true);
-        });
+      refetchProducts();
     }
   }, [isHydrated]);
 
   return (
-    <ProductContext.Provider value={{ products, setProducts }}>
+    <ProductContext.Provider value={{ products, setProducts, refetchProducts }}>
       {children}
     </ProductContext.Provider>
   );

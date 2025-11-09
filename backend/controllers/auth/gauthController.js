@@ -46,7 +46,7 @@ async function handleGauthCallback(req, res) {
         secure: false,
         sameSite: "Lax",
         maxAge: 2592000000,
-    }).redirect(FRONTEND_URL);
+    }).redirect(`${FRONTEND_URL}/home`);
 }
 
 export { startGauth, handleGauthCallback };

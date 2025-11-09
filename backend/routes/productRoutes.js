@@ -15,6 +15,6 @@ router.post("/", authorize, isSeller, addProduct);
 router.get("/", getAllProducts);
 router.get("/:id", getProduct);
 router.put("/:id", authorize, isSeller, editProduct);
-router.delete("/:id", authorize, removeProduct);
+router.delete("/:id", authorize, isSeller, removeProduct);
 
 export default router;

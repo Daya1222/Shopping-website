@@ -9,12 +9,8 @@ export default function Home() {
   // Sample category data - replace with your actual categories
   const { user } = useUser();
   const { products } = useProducts();
-  const IMAGE_BASE = import.meta.env.VITE_IMAGE_BASE_URL;
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { cartItems, addItem, removeItem, clearCart } = useCart();
-
-  const getImage = (image) => {
-    return image.startsWith("http") ? image : `${IMAGE_BASE}${image}`;
-  };
 
   const categories = [
     {
@@ -63,12 +59,15 @@ export default function Home() {
 
   function addToCart(product) {
     addItem({ product });
-    console.log(cartItems);
   }
   function getRandomSubset(list, count = 5) {
     const shuffled = [...list].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
+
+  const getImage = (image) => {
+    return image.startsWith("http") ? image : `${API_BASE}${image}`;
+  };
 
   //Taking random sungets for different sections
   const featuredProducts = useMemo(
@@ -80,6 +79,10 @@ export default function Home() {
     () => getRandomSubset(products, 8),
     [products],
   );
+
+  const isInCart = (product) => {
+    return cartItems.some((item) => item.product._id === product._id);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0]">
@@ -214,7 +217,13 @@ export default function Home() {
                       style={{ backgroundColor: "#79B259" }}
                       onClick={() => addToCart(product)}
                     >
-                      Add to Cart
+                      {isInCart(product) ? (
+                        <>
+                          <span className="mr-2">+</span> Add more to Cart
+                        </>
+                      ) : (
+                        "Add to Cart"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -274,11 +283,17 @@ export default function Home() {
                       </div>
                     </div>
                     <button
-                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition"
+                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400"
                       style={{ backgroundColor: "#79B259" }}
                       onClick={() => addToCart(product)}
                     >
-                      Add to Cart
+                      {isInCart(product) ? (
+                        <>
+                          <span className="mr-2">+</span> Add more to Cart
+                        </>
+                      ) : (
+                        "Add to Cart"
+                      )}
                     </button>
                   </div>
                 </div>

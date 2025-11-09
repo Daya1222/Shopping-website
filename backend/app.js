@@ -11,6 +11,7 @@ import serviceRoutes from "./routes/serviceRoutes.js";
 import oauthRoutes from "./routes/auth/oauthRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import imageRoutes from "./routes/imageRoutes.js";
+// import orderRoutes from "./routes/orderRoutes.js";
 import dbConnect from "./config/dbConnect.js";
 
 // Connect to the database
@@ -34,8 +35,8 @@ app.use("/oauth", oauthRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/images", imageRoutes);
+// app.use("/api/order", orderRoutes);
 
-// ✅ Serve static images directory
 const __dirname = path.resolve();
 app.use(
     "/images",
@@ -43,6 +44,5 @@ app.use(
 );
 
 // app.use("/api/users", userRoutes);
-// app.use("/api/orders", orderRoutes);
 
 export default app;
