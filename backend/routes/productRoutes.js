@@ -7,6 +7,7 @@ import {
     getProduct,
     editProduct,
     removeProduct,
+    rateProduct,
 } from "../controllers/productController.js";
 
 const router = Router();
@@ -16,5 +17,6 @@ router.get("/", getAllProducts);
 router.get("/:id", getProduct);
 router.put("/:id", authorize, isSeller, editProduct);
 router.delete("/:id", authorize, isSeller, removeProduct);
+router.post("/rate/:id", authorize, rateProduct);
 
 export default router;

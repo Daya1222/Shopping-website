@@ -7,14 +7,15 @@ import NotFound from "./pages/NotFound.jsx";
 
 import ProtectedRoutes from "./components/protectedRoutes.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { UserProvider } from "./context/UserContext";
 import Navbar from "./components/navbar.jsx";
 import Profile from "./pages/profile.jsx";
 import AddProduct from "./pages/addProduct.jsx";
 import Products from "./pages/products.jsx";
 import Help from "./pages/help.jsx";
 import Cart from "./pages/cart.jsx";
+import ProductPage from "./pages/productPage.jsx";
 import Checkout from "./pages/checkout.jsx";
+import SearchPage from "./pages/searchPage.jsx";
 
 function App() {
   return (
@@ -71,6 +72,8 @@ function App() {
               </ProtectedRoutes>
             }
           />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/product/:slug/:_id" element={<ProductPage />} />
           <Route path="/help" element={<Help />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

@@ -4,6 +4,7 @@ import Footer from "../components/footer";
 import useProducts from "../hooks/useProduct.jsx";
 import useCart from "../hooks/useCart";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   // Sample category data - replace with your actual categories
@@ -11,6 +12,8 @@ export default function Home() {
   const { products } = useProducts();
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const { cartItems, addItem, removeItem, clearCart } = useCart();
+
+  const navigate = useNavigate();
 
   const categories = [
     {
@@ -57,9 +60,6 @@ export default function Home() {
     },
   ];
 
-  function addToCart(product) {
-    addItem({ product });
-  }
   function getRandomSubset(list, count = 5) {
     const shuffled = [...list].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
@@ -85,7 +85,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0]">
+    <div className="min-h-screen bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0] overflow-auto">
       {/* Hero Banner Section */}
       <section className="px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <div className="max-w-7xl mx-auto">
@@ -98,18 +98,11 @@ export default function Home() {
             <div className="px-8 py-16 sm:px-12 sm:py-20 lg:px-16">
               <div className="max-w-2xl">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-                  Summer Sale
+                  Winter Sale
                 </h1>
                 <p className="text-xl text-white/90 mb-8">
                   Up to 50% off on selected items. Limited time offer!
                 </p>
-                <button
-                  className="px-8 py-4 bg-white rounded-lg font-semibold hover:bg-gray-50 transition shadow-lg flex items-center space-x-2"
-                  style={{ color: "#79B259" }}
-                >
-                  <span>Shop Now</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
               </div>
             </div>
           </div>
@@ -126,6 +119,7 @@ export default function Home() {
             <button
               className="text-sm font-semibold flex items-center space-x-1 hover:opacity-80 transition"
               style={{ color: "#79B259" }}
+              onClick={() => navigate(`/search?q=random`)}
             >
               <span>View All</span>
               <ArrowRight className="w-4 h-4" />
@@ -134,7 +128,11 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((category) => (
-              <div key={category.id} className="group cursor-pointer">
+              <div
+                key={category.id}
+                className="group cursor-pointer"
+                onClick={() => navigate(`/search?q=${category.name}`)}
+              >
                 <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <div className="aspect-square overflow-hidden">
                     <img
@@ -170,6 +168,7 @@ export default function Home() {
             </div>
             <button
               className="text-sm font-semibold flex items-center space-x-1 hover:opacity-80 transition"
+              onClick={() => navigate(`/search?q=featured`)}
               style={{ color: "#79B259" }}
             >
               <span>View All</span>
@@ -179,7 +178,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
+              <div
+                key={product._id}
+                className="group cursor-pointer"
+                onClick={() =>
+                  navigate(`/product/${product.slug}/${product._id}`)
+                }
+              >
                 <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <div className="relative aspect-square overflow-hidden">
                     <img
@@ -215,7 +220,11 @@ export default function Home() {
                     <button
                       className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400"
                       style={{ backgroundColor: "#79B259" }}
-                      onClick={() => addToCart(product)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        addItem({ product });
+                      }}
                     >
                       {isInCart(product) ? (
                         <>
@@ -248,6 +257,7 @@ export default function Home() {
             </div>
             <button
               className="text-sm font-semibold flex items-center space-x-1 hover:opacity-80 transition"
+              onClick={() => navigate("/search?q=trending")}
               style={{ color: "#79B259" }}
             >
               <span>View All</span>
@@ -257,7 +267,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingProducts.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
+              <div
+                key={product._id}
+                className="group cursor-pointer"
+                onClick={() =>
+                  navigate(`/product/${product.slug}/${product._id}`)
+                }
+              >
                 <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <div className="relative aspect-square overflow-hidden">
                     <img
@@ -285,7 +301,11 @@ export default function Home() {
                     <button
                       className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400"
                       style={{ backgroundColor: "#79B259" }}
-                      onClick={() => addToCart(product)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        addItem({ product });
+                      }}
                     >
                       {isInCart(product) ? (
                         <>

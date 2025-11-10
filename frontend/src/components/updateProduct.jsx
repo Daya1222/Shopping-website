@@ -211,7 +211,6 @@ function UpdateProduct({ productId, setStatus }) {
           console.log("Product updated successfully:", productResponse.data);
           await refetchProducts();
           setStatus(false);
-          alert("Product updated successfully!");
         }
       } catch (error) {
         console.error("Error updating product:", error);

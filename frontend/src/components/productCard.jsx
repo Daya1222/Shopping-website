@@ -111,7 +111,7 @@ function ProductCard({
 
         {/* Actual content */}
         <Link
-          to={`/product/${slug}`}
+          to={`/product/${slug}/${_id}`}
           className={`flex flex-col w-full min-h-full rounded-xl transition-opacity duration-300 ${
             isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}

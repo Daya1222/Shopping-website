@@ -64,4 +64,15 @@ async function removeProduct(req, res) {
     }
 }
 
-export { addProduct, getAllProducts, getProduct, editProduct, removeProduct };
+async function rateProduct(req, res) {
+    // TODO
+}
+
+export {
+    addProduct,
+    getAllProducts,
+    getProduct,
+    editProduct,
+    removeProduct,
+    rateProduct,
+};

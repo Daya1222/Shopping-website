@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, matchPath, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   X,
@@ -29,8 +29,17 @@ function Navbar() {
   const itemCount = Array.isArray(cartItems)
     ? cartItems.reduce((sum, item) => sum + item.quantity, 0)
     : 0;
-  const cartVisibleRoutes = ["/home", "/profile", "/seller/add"];
-  const showCart = cartVisibleRoutes.includes(location.pathname);
+  const cartVisibleRoutes = [
+    "/home",
+    "/profile",
+    "/seller/add",
+    "/products",
+    "/product/:slug/:id",
+  ];
+
+  const showCart = cartVisibleRoutes.some((route) =>
+    matchPath({ path: route, end: false }, location.pathname),
+  );
 
   const menuItems = [
     { name: "Home", icon: Home },
@@ -38,6 +47,13 @@ function Navbar() {
     { name: "Orders", icon: ShoppingBag },
     ...(user?._id ? [{ name: "Setting", icon: Settings }] : []),
   ];
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && search.trim()) {
+      setSearchBar(false);
+      navigate(`/search?q=${encodeURIComponent(search.trim())}`);
+    }
+  };
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -172,6 +188,7 @@ function Navbar() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products..."
               className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400 min-w-0 ml-2"
+              onKeyDown={handleKeyDown}
             />
           </div>
 
@@ -198,7 +215,7 @@ function Navbar() {
 
       {/* Mobile Search Bar */}
       {searchBar && (
-        <div className="md:hidden px-4 py-2 bg-gray-200 border-gray-100">
+        <div className="md:hidden px-4 py-2 border-gray-100">
           <input
             type="text"
             name="search"
@@ -207,6 +224,7 @@ function Navbar() {
             placeholder="Search products..."
             className="w-full px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-1 transition h-10"
             autoFocus
+            onKeyDown={handleKeyDown}
           />
         </div>
       )}
