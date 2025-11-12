@@ -4,6 +4,7 @@ import {
     findProductById,
     updateProduct,
     deleteProduct,
+    starProduct,
 } from "../services/productService.js";
 
 async function addProduct(req, res) {
@@ -65,7 +66,16 @@ async function removeProduct(req, res) {
 }
 
 async function rateProduct(req, res) {
-    // TODO
+    const { id } = req.params;
+    const { stars } = req.body;
+    const userId = req.user._id; // Get userId from auth middleware
+
+    try {
+        const msg = await starProduct(id, stars, userId);
+        res.status(200).json(msg);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
 
 export {

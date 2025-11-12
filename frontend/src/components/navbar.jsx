@@ -1,5 +1,5 @@
 import { Outlet, useLocation, matchPath, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   X,
   Home,
@@ -9,8 +9,8 @@ import {
   Search,
   LogIn,
   ShoppingCart,
+  BadgeQuestionMark,
 } from "lucide-react";
-import logo from "../assets/social.png";
 import UserProfileDropdown from "./userProfileDropdown.jsx";
 import useUser from "../hooks/useUser";
 import useCart from "../hooks/useCart.jsx";
@@ -24,6 +24,7 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, setUser, setLoading } = useUser();
+  const contentRef = useRef(null);
 
   const { cartItems } = useCart();
   const itemCount = Array.isArray(cartItems)
@@ -43,10 +44,19 @@ function Navbar() {
 
   const menuItems = [
     { name: "Home", icon: Home },
-    { name: "Products", icon: Package },
-    { name: "Orders", icon: ShoppingBag },
+    ...(user?.role === "admin" || user?.role === "seller"
+      ? [{ name: "Products", icon: Package }]
+      : []),
+    ...(user?._id ? [{ name: "Orders", icon: ShoppingBag }] : []),
     ...(user?._id ? [{ name: "Setting", icon: Settings }] : []),
+    { name: "Help", icon: BadgeQuestionMark },
   ];
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && search.trim()) {
@@ -123,7 +133,7 @@ function Navbar() {
           </button>
 
           <div className="flex items-center cursor-pointer gap-2">
-            <img src={logo} alt="logo" className="w-8" />
+            <ShoppingBag />
             <div
               className="text-xl font-bold text-gray-900 cursor-pointer"
               onClick={() => navigate("/home")}
@@ -147,7 +157,7 @@ function Navbar() {
         <div className="hidden md:flex h-full w-full items-center justify-between">
           {/* Logo */}
           <div className="flex items-center cursor-pointer gap-4 mr-4">
-            <img src={logo} alt="logo" className="w-8" />
+            <ShoppingBag className="w-8" />
             <div
               className="text-xl font-bold text-gray-900 cursor-pointer hover:text-blue-600 transition"
               onClick={() => navigate("/home")}
@@ -248,7 +258,7 @@ function Navbar() {
           {/* Menu Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center gap-2">
-              <img src={logo} alt="logo" className="w-8" />
+              <ShoppingBag className="w-8" />
               <span className="font-bold text-gray-900">QuickCart</span>
             </div>
             <button
@@ -315,7 +325,7 @@ function Navbar() {
       )}
 
       {/* Page Content */}
-      <div className="h-full w-full overflow-auto">
+      <div ref={contentRef} className="h-full w-full overflow-auto">
         <Outlet context={{ checkingUser, setCheckingUser }} />
       </div>
 

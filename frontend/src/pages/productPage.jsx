@@ -8,23 +8,21 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export default function ProductPage() {
   const { _id } = useParams();
-  const { products } = useProducts();
+  const { products, fetchProductById } = useProducts();
   const { cartItems, addItem, removeItem, clearCart } = useCart();
 
   const product = products.find((product) => product._id === _id);
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleRating = async (stars) => {
-    alert(`You clicked ${stars} stars!`); // Alert to confirm it's working
-    console.log(`User rated ${stars} stars for product ${_id}`);
-
     try {
       const response = await axios.post(
-        `${API_BASE}/review/rating/${_id}`,
-        { rating: stars },
+        `${API_BASE}/api/product/rate/${_id}`,
+        { stars: stars },
         { withCredentials: true },
       );
-      console.log(response);
+
+      fetchProductById(_id);
     } catch (err) {
       console.log("Error while rating the product", err);
     }
@@ -39,6 +37,9 @@ export default function ProductPage() {
       </div>
     );
   }
+
+  const averageRating = product.rating?.average || 0;
+  const totalRatings = product.rating?.totalRatings || 0;
 
   return (
     <div className="min-h-full bg-gray-50 p-4 md:p-8">
@@ -74,8 +75,7 @@ export default function ProductPage() {
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((starValue) => {
-                  const isFilled =
-                    starValue <= (hoverRating || Math.floor(product.rating));
+                  const isFilled = starValue <= (hoverRating || averageRating);
 
                   return (
                     <button
@@ -97,7 +97,7 @@ export default function ProductPage() {
                 })}
               </div>
               <span className="text-gray-600 font-medium">
-                {product.rating.toFixed(1)}
+                {averageRating.toFixed(1)} ({totalRatings})
               </span>
             </div>
 

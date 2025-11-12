@@ -6,7 +6,6 @@ const productschema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-
     slug: {
         type: String,
         unique: true,
@@ -38,13 +37,44 @@ const productschema = new mongoose.Schema({
         index: true,
     },
     rating: {
-        type: Number,
-        default: 0,
+        totalRatings: {
+            type: Number,
+            default: 0,
+        },
+        average: {
+            type: Number,
+            default: 0,
+        },
+        sumOfStars: {
+            type: Number,
+            default: 0,
+        },
     },
+    ratings: [
+        {
+            userId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "user",
+                required: true,
+            },
+            stars: {
+                type: Number,
+                required: true,
+                min: 1,
+                max: 5,
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now,
+            },
+            updatedAt: {
+                type: Date,
+            },
+        },
+    ],
     image: {
         type: String,
     },
-
     createdat: {
         type: Date,
         default: Date.now,

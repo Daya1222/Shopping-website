@@ -85,8 +85,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0] overflow-auto">
-      {/* Hero Banner Section */}
+    <div className="scroll-auto min-h-screen bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0] overflow-auto">
+      {/* Banner Section */}
       <section className="px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <div className="max-w-7xl mx-auto">
           <div
@@ -214,11 +214,11 @@ export default function Home() {
                       </span>
                       <div className="flex items-center space-x-1 text-sm text-gray-600">
                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span>{product.rating}</span>
+                        <span>{product.rating.average}</span>
                       </div>
                     </div>
                     <button
-                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400"
+                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400 cursor-pointer"
                       style={{ backgroundColor: "#79B259" }}
                       onClick={(e) => {
                         e.preventDefault();
@@ -295,11 +295,11 @@ export default function Home() {
                       </span>
                       <div className="flex items-center space-x-1 text-sm text-gray-600">
                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span>{product.rating}</span>
+                        <span>{product.rating.average}</span>
                       </div>
                     </div>
                     <button
-                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400"
+                      className="w-full mt-3 px-4 py-2 text-white rounded-lg font-semibold hover:opacity-90 transition active:bg-green-400 cursor-pointer"
                       style={{ backgroundColor: "#79B259" }}
                       onClick={(e) => {
                         e.stopPropagation();

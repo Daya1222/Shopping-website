@@ -27,6 +27,10 @@ function SearchPage() {
 
   let result = [];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (isSpecial) {
     result = [...products].sort(() => 0.5 - Math.random()).slice(0, 10);
   } else if (isCategory) {
@@ -38,10 +42,6 @@ function SearchPage() {
     });
     result = fuse.search(query).map((r) => r.item);
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   if (result.length === 0) {
     return (
@@ -88,7 +88,8 @@ function SearchPage() {
               name={item.name}
               price={item.price}
               image={item.image}
-              rating={item.rating}
+              stars={item.rating.average}
+              totalRatings={item.rating.totalRatings}
               slug={item.slug}
               variant={"buyer"}
             />

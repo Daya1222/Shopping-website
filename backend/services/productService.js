@@ -62,10 +62,60 @@ async function deleteProduct(_id) {
     }
 }
 
+async function starProduct(productId, stars, userId) {
+    try {
+        const product = await Product.findById(productId);
+        if (!product) throw new Error("Product not found");
+
+        // Initialize rating object if it doesn't exist or has undefined values
+        if (!product.rating || product.rating.sumOfStars === undefined) {
+            product.rating = {
+                sumOfStars: 0,
+                totalRatings: 0,
+                average: 0,
+            };
+        }
+
+        // Initialize ratings array if it doesn't exist
+        if (!product.ratings) {
+            product.ratings = [];
+        }
+
+        // Check if user already rated
+        const existingRatingIndex = product.ratings.findIndex(
+            (rating) => rating.userId.toString() === userId.toString(),
+        );
+
+        if (existingRatingIndex !== -1) {
+            // Update existing rating
+            const oldStars = product.ratings[existingRatingIndex].stars;
+            product.ratings[existingRatingIndex].stars = stars;
+            product.ratings[existingRatingIndex].updatedAt = new Date();
+            product.rating.sumOfStars =
+                product.rating.sumOfStars - oldStars + stars;
+        } else {
+            // Add new rating
+            product.ratings.push({ userId, stars, createdAt: new Date() });
+            product.rating.sumOfStars += stars;
+            product.rating.totalRatings += 1;
+        }
+
+        // Recalculate average
+        product.rating.average =
+            product.rating.sumOfStars / product.rating.totalRatings;
+
+        await product.save();
+        return { rating: product.rating };
+    } catch (error) {
+        throw new Error(`Database error: ${error.message}`);
+    }
+}
+
 export {
     createProduct,
     findAllProducts,
     findProductById,
     updateProduct,
     deleteProduct,
+    starProduct,
 };

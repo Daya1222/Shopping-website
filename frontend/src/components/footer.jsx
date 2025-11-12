@@ -18,7 +18,7 @@ export default function Footer() {
             dayajoshi1222@gmail.com
           </a>
         </div>
-        <p className="text-sm">&copy; 2025 ShopFlow. All rights reserved.</p>
+        <p className="text-sm">&copy; 2025 QuickCart. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -13,7 +13,8 @@ function ProductCard({
   price,
   slug,
   image,
-  rating,
+  stars,
+  totalRatings,
   variant = "buyer",
 }) {
   const { refetchProducts } = useProducts();
@@ -49,38 +50,37 @@ function ProductCard({
     );
   }
 
-  async function editItem(_id) {
-    setIsEditing(true);
-  }
-
   const getImage = (image) => {
     return image.startsWith("http") ? image : `${API_BASE}${image}`;
   };
 
-  function Rating({ rating }) {
+  function Rating({ stars, totalRatings }) {
     return (
-      <div className="flex items-center p-1">
-        {[...Array(5)].map((_, i) => {
-          if (i + 1 <= Math.floor(rating)) {
-            return (
-              <Star
-                key={i}
-                size={16}
-                className="fill-yellow-400 text-yellow-400"
-              />
-            );
-          } else if (i < rating) {
-            return (
-              <StarHalf
-                key={i}
-                size={16}
-                className="fill-yellow-400 text-yellow-400"
-              />
-            );
-          } else {
-            return <Star key={i} size={16} className="text-gray-300" />;
-          }
-        })}
+      <div className="flex items-center gap-2 p-1">
+        <div className="flex items-center">
+          {[...Array(5)].map((_, i) => {
+            if (i + 1 <= Math.floor(stars)) {
+              return (
+                <Star
+                  key={i}
+                  size={16}
+                  className="fill-yellow-400 text-yellow-400"
+                />
+              );
+            } else if (i < stars) {
+              return (
+                <StarHalf
+                  key={i}
+                  size={16}
+                  className="fill-yellow-400 text-yellow-400"
+                />
+              );
+            } else {
+              return <Star key={i} size={16} className="text-gray-300" />;
+            }
+          })}
+        </div>
+        <span className="text-sm text-gray-600">({totalRatings || 0})</span>
       </div>
     );
   }
@@ -137,7 +137,7 @@ function ProductCard({
                   &#x0930;&#x0941;{price || 500}
                 </span>
               </span>
-              <Rating rating={rating || 0} />
+              <Rating stars={stars || 0} totalRatings={totalRatings} />
             </div>
 
             {variant === "seller" && (
@@ -160,7 +160,7 @@ function ProductCard({
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    editItem(_id);
+                    setIsEditing(true);
                   }}
                 >
                   <Edit
