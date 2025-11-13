@@ -51,13 +51,13 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
     <td><img src="./screenshots/home+dropdown.png" alt="Mobile Home" width="180"/></td>
     <td><img src="./screenshots/sidebar-mobile.png" alt="Mobile Menu" width="180"/></td>
     <td><img src="./screenshots/admin-page.png" alt="Mobile Admin" width="180"/></td>
-    <td><img src="./screenshots/image.png" alt="Mobile View" width="180"/></td>
+    <td><img src="./screenshots/faq.png" alt="Mobile View" width="180"/></td>
   </tr>
   <tr>
     <td align="center"><em>Home & Categories</em></td>
     <td align="center"><em>Navigation Menu</em></td>
     <td align="center"><em>Admin Panel</em></td>
-    <td align="center"><em>Product View</em></td>
+    <td align="center"><em>Help Page</em></td>
   </tr>
 </table>
 
