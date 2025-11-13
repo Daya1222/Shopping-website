@@ -3,7 +3,6 @@ import useUser from "../hooks/useUser";
 import {
   ChevronDown,
   HelpCircle,
-  Settings,
   User2,
   LogOut,
   CircleAlert,
@@ -189,7 +188,7 @@ function ProfileCard({ variant = "concise" }) {
               <CircleAlert className="text-red-600 w-4 ml-3" />
             )}
           </button>
-          {user.role === admin && (
+          {user.role === "admin" && (
             <button
               className="w-full px-4 py-2 flex items-center text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               onClick={() => navigateTo("/admin")}
