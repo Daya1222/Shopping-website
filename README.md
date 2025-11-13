@@ -135,7 +135,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 Daya Joshi - dayajoshi1222@gmail.com
 
-Project Link: [https://github.com/yourusername/quickcart](https://github.com/daya1222/quickcart)
+Project Link: [https://github.com/yourusername/quickcart](https://github.com/dayaj1222/quickcart)
 
 ---
 
