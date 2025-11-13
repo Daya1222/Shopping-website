@@ -13,45 +13,34 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
 
 <table>
   <tr>
-    <td><img src="./screenshots/home+dropdown.png" alt="Home Page" width="400"/></td>
     <td><img src="./screenshots/search-result.png" alt="Search Results" width="400"/></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Home & Categories</em></td>
-    <td align="center"><em>Search Products</em></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
     <td><img src="./screenshots/cart.png" alt="Shopping Cart" width="400"/></td>
-    <td><img src="./screenshots/place-order.png" alt="Place Order" width="400"/></td>
   </tr>
   <tr>
+    <td align="center"><em>Search Products</em></td>
     <td align="center"><em>Shopping Cart</em></td>
-    <td align="center"><em>Order Placement</em></td>
   </tr>
 </table>
 
 <table>
   <tr>
+    <td><img src="./screenshots/place-order.png" alt="Place Order" width="400"/></td>
     <td><img src="./screenshots/register.png" alt="Registration" width="400"/></td>
-    <td><img src="./screenshots/profile-info.png" alt="Profile" width="400"/></td>
   </tr>
   <tr>
+    <td align="center"><em>Order Placement</em></td>
     <td align="center"><em>User Registration</em></td>
-    <td align="center"><em>Profile Management</em></td>
   </tr>
 </table>
 
 <table>
   <tr>
+    <td><img src="./screenshots/profile-info.png" alt="Profile" width="400"/></td>
     <td><img src="./screenshots/add-product.png" alt="Add Product" width="400"/></td>
-    <td><img src="./screenshots/admin-page.png" alt="Admin Dashboard" width="400"/></td>
   </tr>
   <tr>
+    <td align="center"><em>Profile Management</em></td>
     <td align="center"><em>Seller Dashboard</em></td>
-    <td align="center"><em>Admin Panel</em></td>
   </tr>
 </table>
 
@@ -59,12 +48,16 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
 
 <table>
   <tr>
-    <td><img src="./screenshots/image.png" alt="Mobile Home" width="250"/></td>
-    <td><img src="./screenshots/sidebar-mobile.png" alt="Mobile Menu" width="250"/></td>
+    <td><img src="./screenshots/home+dropdown.png" alt="Mobile Home" width="180"/></td>
+    <td><img src="./screenshots/sidebar-mobile.png" alt="Mobile Menu" width="180"/></td>
+    <td><img src="./screenshots/admin-page.png" alt="Mobile Admin" width="180"/></td>
+    <td><img src="./screenshots/image.png" alt="Mobile View" width="180"/></td>
   </tr>
   <tr>
-    <td align="center"><em>Mobile Home</em></td>
-    <td align="center"><em>Mobile Navigation</em></td>
+    <td align="center"><em>Home & Categories</em></td>
+    <td align="center"><em>Navigation Menu</em></td>
+    <td align="center"><em>Admin Panel</em></td>
+    <td align="center"><em>Product View</em></td>
   </tr>
 </table>
 
