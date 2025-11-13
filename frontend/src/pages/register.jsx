@@ -218,17 +218,17 @@ function Register() {
   if (step === 0) return null;
 
   return (
-    <div className="flex flex-col w-full h-full items-center justify-center">
-      <div className="flex flex-col md:flex-row w-full min-h-full justify-center items-center  bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0]  transition-all duration-500 md:gap-14 lg:gap-16">
+    <div className="flex flex-col w-full h-full md:items-center md:justify-center">
+      <div className="flex flex-col md:flex-row w-full min-h-full md:justify-center items-center  bg-gradient-to-r from-[#E0F2E9] to-[#ECF8F0]  transition-all duration-500 md:gap-14 lg:gap-16">
         <div className="md:w-7/12 md:flex hidden justify-center items-center">
           <img src={people} alt="people" />
         </div>
-        <div className="md:hidden flex justify-center items-center gap-2 pt-8">
+        <div className="md:hidden flex justify-center items-center gap-2 pt-8 mt-10">
           <img src={bag} alt="bag" className="w-10 mb-4" />
           <p className="text-2xl font-bold mb-4 text-gray-700">Welcome!</p>
         </div>
 
-        <div className="flex justify-center items-center md:w-3/12 md:min-w-sm w-sm h-auto md:pr-6 py-8">
+        <div className="flex justify-center items-center md:w-3/12 w-11/12 md:min-w-sm h-auto md:pr-6 ">
           <div className="flex flex-col justify-center items-center w-full max-w-md bg-white gap-4 rounded-2xl shadow-lg p-4">
             <div className="flex flex-col items-center mb-6">
               <div className="hidden md:flex text-2xl font-semibold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent mb-2">
