@@ -10,6 +10,7 @@ import {
   LogIn,
   ShoppingCart,
   BadgeQuestionMark,
+  User2,
 } from "lucide-react";
 import UserProfileDropdown from "./userProfileDropdown.jsx";
 import useUser from "../hooks/useUser";
@@ -48,7 +49,7 @@ function Navbar() {
       ? [{ name: "Products", icon: Package }]
       : []),
     ...(user?._id ? [{ name: "Orders", icon: ShoppingBag }] : []),
-    ...(user?._id ? [{ name: "Setting", icon: Settings }] : []),
+    ...(user?.role === "admin" ? [{ name: "Admin", icon: User2 }] : []),
     { name: "Help", icon: BadgeQuestionMark },
   ];
 

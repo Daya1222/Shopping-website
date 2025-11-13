@@ -188,12 +188,7 @@ function ProfileCard({ variant = "concise" }) {
               <CircleAlert className="text-red-600 w-4 ml-3" />
             )}
           </button>
-          <button
-            className="w-full px-4 py-2 flex items-center text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-            onClick={() => navigateTo("/settings")}
-          >
-            <Settings className="size-4 mr-1" /> Settings
-          </button>
+
           <button
             className="w-full px-4 py-2 text-left flex items-center text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             onClick={() => navigateTo("/help")}

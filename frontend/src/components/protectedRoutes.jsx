@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { useEffect, useState } from "react";
 
-function ProtectedRoutes({ children, sellerOnly = false }) {
+function ProtectedRoutes({ children, sellerOnly = false, adminOnly = false }) {
   const { user, loading } = useUser(); // assume your hook can expose a loading state
   const navigate = useNavigate();
 
@@ -20,6 +20,10 @@ function ProtectedRoutes({ children, sellerOnly = false }) {
   }
 
   if (!user || (sellerOnly && user.role !== "seller")) {
+    return null;
+  }
+
+  if (!user || (adminOnly && user.role !== "admin")) {
     return null;
   }
 

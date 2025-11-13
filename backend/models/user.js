@@ -15,18 +15,9 @@ const userSchema = new mongoose.Schema(
         profilePicUrl: { type: String },
 
         // Addresses
-        addresses: [
-            {
-                street: String,
-                city: String,
-                state: String,
-                postalCode: String,
-                country: String,
-                isDefault: { type: Boolean, default: false },
-            },
-        ],
-
-        // wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+        address: {
+            type: String,
+        },
 
         // Role / status
         role: {

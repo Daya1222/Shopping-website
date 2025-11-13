@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config(); // ✅ Load env first — before anything else
+dotenv.config();
 
 import path from "path";
 import express from "express";
@@ -12,6 +12,7 @@ import oauthRoutes from "./routes/auth/oauthRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import imageRoutes from "./routes/imageRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import dbConnect from "./config/dbConnect.js";
 
 // Connect to the database
@@ -36,13 +37,12 @@ app.use("/api/service", serviceRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/images", imageRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/user", userRoutes);
 
 const __dirname = path.resolve();
 app.use(
     "/images",
     express.static(path.join(__dirname, process.env.IMAGE_DIR || "images")),
 );
-
-// app.use("/api/users", userRoutes);
 
 export default app;

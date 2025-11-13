@@ -18,6 +18,7 @@ import Checkout from "./pages/checkout.jsx";
 import SearchPage from "./pages/searchPage.jsx";
 import SettingsPage from "./pages/settings.jsx";
 import OrdersPage from "./pages/ordersPage";
+import AdminPage from "./pages/adminPage.jsx";
 
 function App() {
   return (
@@ -90,6 +91,16 @@ function App() {
               </ProtectedRoutes>
             }
           />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoutes adminOnly={true}>
+                <AdminPage />
+              </ProtectedRoutes>
+            }
+          />
+
           <Route path="/search" element={<SearchPage />} />
           <Route path="/product/:slug/:_id" element={<ProductPage />} />
           <Route path="/help" element={<Help />} />
