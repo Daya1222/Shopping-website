@@ -94,14 +94,6 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
 - Google OAuth 2.0
 - RESTful API Architecture
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- MongoDB
-- Google OAuth credentials
-
 ## 📁 Project Structure
 ```
 quickcart/
