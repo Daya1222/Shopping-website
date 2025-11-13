@@ -106,7 +106,7 @@ function ProfileCard({ variant = "concise" }) {
         alt={user?.name}
         onError={(e) => {
           console.error("Image load error:", e);
-          // Prevent infinite loop
+
           if (e.target.src !== "https://ui-avatars.com/api/?name=User") {
             e.target.src = "https://ui-avatars.com/api/?name=User";
           }
@@ -189,9 +189,17 @@ function ProfileCard({ variant = "concise" }) {
               <CircleAlert className="text-red-600 w-4 ml-3" />
             )}
           </button>
+          {user.role === admin && (
+            <button
+              className="w-full px-4 py-2 flex items-center text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              onClick={() => navigateTo("/admin")}
+            >
+              <Shield className="size-4 mr-1" /> Admin
+            </button>
+          )}
 
           <button
-            className="w-full px-4 py-2 text-left flex items-center text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            className="w-full px-4 py-2 text-left flex items-center text-sm text-gray-700 hover:bg-gray-50 transition-colors md:hidden"
             onClick={() => navigateTo("/help")}
           >
             <HelpCircle className="size-4 mr-1" /> Help
