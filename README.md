@@ -7,11 +7,58 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
 
 ## 📸 Screenshots
 
-### Desktop View
-![Desktop Screenshot](./screenshots/image.png)
+<div align="center">
 
-### Mobile View
-![Mobile Screenshot](./screenshots/home-mobile.png)
+### 🏠 Home & Navigation
+<img src="./screenshots/home+dropdown.png" alt="Home Page" width="800"/>
+
+*Browse products by categories with intuitive navigation*
+
+### 🔍 Search & Discovery
+<img src="./screenshots/search-result.png" alt="Search Results" width="800"/>
+
+*Quick product search with instant results*
+
+### 🛍️ Shopping Experience
+<table>
+  <tr>
+    <td><img src="./screenshots/cart.png" alt="Shopping Cart" width="400"/></td>
+    <td><img src="./screenshots/place-order.png" alt="Place Order" width="400"/></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Shopping Cart</em></td>
+    <td align="center"><em>Order Placement</em></td>
+  </tr>
+</table>
+
+### 👤 User Management
+<table>
+  <tr>
+    <td><img src="./screenshots/register.png" alt="Registration" width="400"/></td>
+    <td><img src="./screenshots/profile-info.png" alt="Profile" width="400"/></td>
+  </tr>
+  <tr>
+    <td align="center"><em>User Registration</em></td>
+    <td align="center"><em>Profile Management</em></td>
+  </tr>
+</table>
+
+### 🏪 Seller Dashboard
+<img src="./screenshots/add-product.png" alt="Add Product" width="800"/>
+
+*Easy product listing for sellers*
+
+### 🔧 Admin Panel
+<img src="./screenshots/admin-page.png" alt="Admin Dashboard" width="800"/>
+
+*Comprehensive admin controls*
+
+### 📱 Mobile Experience
+<img src="./screenshots/sidebar-mobile.png" alt="Mobile Navigation" width="300"/>
+
+*Fully responsive mobile interface*
+
+</div>
 
 ## ✨ Features
 
