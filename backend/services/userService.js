@@ -32,6 +32,7 @@ async function updateUserService(userId, updates) {
             "profilePicUrl",
             "role",
         ];
+        console.log(updates);
         const filteredUpdates = {};
         Object.keys(updates).forEach((key) => {
             if (allowedUpdates.includes(key)) {

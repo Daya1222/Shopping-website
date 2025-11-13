@@ -45,4 +45,11 @@ app.use(
     express.static(path.join(__dirname, process.env.IMAGE_DIR || "images")),
 );
 
+const frontendPath = path.join(__dirname, "../frontend/dist/");
+app.use(express.static(frontendPath));
+
+app.use((req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+});
+
 export default app;

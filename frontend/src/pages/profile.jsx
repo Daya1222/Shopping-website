@@ -15,6 +15,7 @@ import {
   Store,
 } from "lucide-react";
 import useUser from "../hooks/useUser.jsx";
+import axios from "axios";
 
 function Profile() {
   const { user, refreshUser } = useUser();
@@ -71,20 +72,17 @@ function Profile() {
     setIsSaving(true);
     try {
       const API_BASE = import.meta.env.VITE_API_BASE_URL;
-      const response = await fetch(`${API_BASE}/api/user/${user._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      console.log(API_BASE);
+      const response = await axios.patch(
+        `${API_BASE}/api/user/${user._id}`,
+        editedUser,
+        {
+          withCredentials: true,
         },
-        credentials: "include",
-        body: JSON.stringify(editedUser),
-      });
+      );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || `Server returned ${response.status}`);
-      }
+      const data = response.data;
+      console.log(data);
 
       setIsEditing(false);
       await refreshUser();

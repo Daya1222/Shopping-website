@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authorize from "../middleware/authorize.js";
+import isProfileComplete from "../middleware/isProfileComplete.js";
 import {
     placeOrder,
     getOrders,
@@ -7,11 +8,10 @@ import {
     confirmOrder,
     confirmReceived,
 } from "../controllers/orderController.js";
-import isProfileComplete from "../middleware/isProfileComplete.js";
 
 const router = Router();
 
-router.post("/", authorize, placeOrder);
+router.post("/", authorize, isProfileComplete, placeOrder);
 router.get("/", authorize, getOrders);
 router.patch("/:orderId/cancel", authorize, cancelOrder);
 router.patch("/:orderId/confirm", authorize, confirmOrder);

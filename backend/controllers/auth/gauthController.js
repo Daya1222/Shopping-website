@@ -7,7 +7,7 @@ import { loginOrRegisterGoogleUser } from "../../services/auth/gAuthService.js";
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const REDIRECT_URL = process.env.GOOGLE_REDIRECT_URL;
-const FRONTEND_URL = process.env.FRONTEND_URL;
+const FRONTEND_URL = process.env.BASE_URL;
 
 function startGauth(req, res) {
     const base = "https://accounts.google.com/o/oauth2/v2/auth";

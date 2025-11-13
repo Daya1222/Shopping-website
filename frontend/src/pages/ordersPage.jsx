@@ -67,8 +67,6 @@ function OrdersPage() {
       );
 
       setBuyingOrders((prev) => prev.filter((order) => order._id !== orderId));
-
-      alert("Order cancelled successfully!");
     } catch (error) {
       console.error("Failed to cancel order:", error);
       alert(error.response?.data?.error || "Failed to cancel order");
@@ -92,8 +90,6 @@ function OrdersPage() {
           order._id === orderId ? { ...order, status: "shipped" } : order,
         ),
       );
-
-      alert("Order marked as shipped!");
     } catch (error) {
       console.error("Failed to confirm order:", error);
       alert(error.response?.data?.error || "Failed to confirm order");
@@ -117,8 +113,6 @@ function OrdersPage() {
           order._id === orderId ? { ...order, status: "completed" } : order,
         ),
       );
-
-      alert("Order completed successfully!");
     } catch (error) {
       console.error("Failed to confirm received:", error);
       alert(error.response?.data?.error || "Failed to confirm received");

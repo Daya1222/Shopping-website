@@ -3,10 +3,12 @@ import useCart from "../hooks/useCart";
 import Footer from "../components/footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useUser from "../hooks/useUser.jsx";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Checkout() {
   const { cartItems, clearCart } = useCart();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const calculateSubtotal = () => {
@@ -22,6 +24,12 @@ function Checkout() {
   const total = subtotal + tax + shipping;
 
   const handlePlaceOrder = async () => {
+    if (!user.isComplete) {
+      alert("Profile incomplete. Complete the profile to place Order");
+      navigate("/profile");
+      return;
+    }
+
     const products = cartItems.map((item) => ({
       product: item.product._id,
       quantity: item.quantity,
