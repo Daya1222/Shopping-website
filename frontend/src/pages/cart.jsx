@@ -24,6 +24,7 @@ function Cart() {
           <div className="flex flex-col w-11/12 md:w-5/6 justify-center items-center">
             <img
               src="https://cdn.dribbble.com/userupload/42192222/file/original-0eb8c11fdae4be1f445866c47f0e57f6.gif"
+              className="w-60 bg-black"
               alt="tumbleweed.gif"
             />
             <div className="flex w-full rounded-lg justify-center items-center ">

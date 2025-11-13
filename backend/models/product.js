@@ -32,7 +32,7 @@ const productschema = new mongoose.Schema({
     },
     sellerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: true,
         index: true,
     },
@@ -93,6 +93,6 @@ productschema.pre("save", function (next) {
     next();
 });
 
-const Product = mongoose.model("product", productschema);
+const Product = mongoose.model("Product", productschema);
 
 export default Product;

@@ -65,7 +65,7 @@ function CartItemCard({ item }) {
 
   return (
     <Link
-      to={`/product/${slug}`}
+      to={`/product/${slug}/${_id}`}
       className="flex items-center w-11/12 md:w-5/6 rounded-sm shadow-sm p-2 hover:bg-gray-50 transition bg-white"
     >
       {/* Image */}

@@ -26,10 +26,7 @@ const userSchema = new mongoose.Schema(
             },
         ],
 
-        // E-commerce
-        cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-        wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-        orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+        // wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 
         // Role / status
         role: {

@@ -1,6 +1,6 @@
 import progress from "../assets/work-in-progress.png";
 
-function Profile() {
+function SettingsPage() {
   return (
     <div className="flex justify-center items-center w-full h-10/12">
       <img
@@ -12,4 +12,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default SettingsPage;

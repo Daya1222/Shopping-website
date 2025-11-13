@@ -16,6 +16,8 @@ import Cart from "./pages/cart.jsx";
 import ProductPage from "./pages/productPage.jsx";
 import Checkout from "./pages/checkout.jsx";
 import SearchPage from "./pages/searchPage.jsx";
+import SettingsPage from "./pages/settings.jsx";
+import OrdersPage from "./pages/ordersPage";
 
 function App() {
   return (
@@ -69,6 +71,22 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Checkout />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoutes>
+                <SettingsPage />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoutes>
+                <OrdersPage />
               </ProtectedRoutes>
             }
           />

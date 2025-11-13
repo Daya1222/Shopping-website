@@ -1,11 +1,13 @@
-import React from "react";
 import { ShoppingBag, CreditCard, Package } from "lucide-react";
 import useCart from "../hooks/useCart";
 import Footer from "../components/footer";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Checkout() {
-  // Sample cart data - replace with your actual cartItems from useCart()
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const calculateSubtotal = () => {
     return cartItems.reduce(
@@ -19,10 +21,27 @@ function Checkout() {
   const shipping = subtotal > 50 ? 0 : 9.99;
   const total = subtotal + tax + shipping;
 
-  const handlePlaceOrder = () => {
-    console.log("Order placed!");
-  };
+  const handlePlaceOrder = async () => {
+    const products = cartItems.map((item) => ({
+      product: item.product._id,
+      quantity: item.quantity,
+    }));
 
+    try {
+      const response = await axios.post(
+        `${API_BASE}/api/order/`,
+        { products },
+        { withCredentials: true },
+      );
+      console.log(response);
+      alert("Order Successfully Placed");
+      clearCart();
+      navigate("/home");
+    } catch (error) {
+      console.log("Error placing order", error.message);
+      alert(error.response?.data?.message || "Failed to place order");
+    }
+  };
   return (
     <>
       <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 py-8 px-4">
