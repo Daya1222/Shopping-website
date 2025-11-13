@@ -9,17 +9,19 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
 
 <div align="center">
 
-### 🏠 Home & Navigation
-<img src="./screenshots/home+dropdown.png" alt="Home Page" width="800"/>
+### 💻 Desktop Experience
 
-*Browse products by categories with intuitive navigation*
+<table>
+  <tr>
+    <td><img src="./screenshots/home+dropdown.png" alt="Home Page" width="400"/></td>
+    <td><img src="./screenshots/search-result.png" alt="Search Results" width="400"/></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Home & Categories</em></td>
+    <td align="center"><em>Search Products</em></td>
+  </tr>
+</table>
 
-### 🔍 Search & Discovery
-<img src="./screenshots/search-result.png" alt="Search Results" width="800"/>
-
-*Quick product search with instant results*
-
-### 🛍️ Shopping Experience
 <table>
   <tr>
     <td><img src="./screenshots/cart.png" alt="Shopping Cart" width="400"/></td>
@@ -31,7 +33,6 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
   </tr>
 </table>
 
-### 👤 User Management
 <table>
   <tr>
     <td><img src="./screenshots/register.png" alt="Registration" width="400"/></td>
@@ -43,20 +44,29 @@ A modern, full-stack e-commerce platform built with the MERN stack, featuring se
   </tr>
 </table>
 
-### 🏪 Seller Dashboard
-<img src="./screenshots/add-product.png" alt="Add Product" width="800"/>
-
-*Easy product listing for sellers*
-
-### 🔧 Admin Panel
-<img src="./screenshots/admin-page.png" alt="Admin Dashboard" width="800"/>
-
-*Comprehensive admin controls*
+<table>
+  <tr>
+    <td><img src="./screenshots/add-product.png" alt="Add Product" width="400"/></td>
+    <td><img src="./screenshots/admin-page.png" alt="Admin Dashboard" width="400"/></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Seller Dashboard</em></td>
+    <td align="center"><em>Admin Panel</em></td>
+  </tr>
+</table>
 
 ### 📱 Mobile Experience
-<img src="./screenshots/sidebar-mobile.png" alt="Mobile Navigation" width="300"/>
 
-*Fully responsive mobile interface*
+<table>
+  <tr>
+    <td><img src="./screenshots/image.png" alt="Mobile Home" width="250"/></td>
+    <td><img src="./screenshots/sidebar-mobile.png" alt="Mobile Menu" width="250"/></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Mobile Home</em></td>
+    <td align="center"><em>Mobile Navigation</em></td>
+  </tr>
+</table>
 
 </div>
 
